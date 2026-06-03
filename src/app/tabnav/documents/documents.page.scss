@@ -1,0 +1,73 @@
+.card-detail {
+  padding-left: 0% !important;
+}
+
+.card-border {
+  border-top: 5px solid var(--ion-color-border) !important;
+  border-bottom: 5px solid var(--ion-color-border) !important;
+  border-left: 5px solid var(--ion-color-border) !important;
+  border-right: 5px solid var(--ion-color-border) !important;
+  border-radius: 10px;
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
+
+.top-card {
+  padding-top: 0%;
+  padding-bottom: 0%;
+  border-top: 3px solid var(--ion-color-dark) !important;
+  border-bottom: 3px solid var(--ion-color-dark) !important;
+  border-left: 3px solid var(--ion-color-dark) !important;
+  border-right: 3px solid var(--ion-color-dark) !important;
+  border-radius: 10px;
+  --border-width: 5px !important;
+  //background-color: var(--ion-color-tertiary);
+}
+
+.title-color {
+  color: var(--ion-color-drawthree) !important;
+  font-size: 140% !important;
+}
+
+.test {
+  color: var(--ion-color-medium) !important;
+}
+
+.test2 {
+  min-width: 120% !important;
+  padding-left: 0% !important;
+}
+
+ion-card-header {
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
+
+ion-card-content {
+  padding-bottom: 0%;
+}
+
+.this-ion-card {
+  margin: 0px;
+  border-radius: 0px;
+  height: 100%;
+  box-shadow: none;
+}
+
+.hide-toggle {
+  padding: 0% !important;
+  background-color: var(--ion-color-tertiary) !important;
+}
+
+.box-border {
+  --border-width: 2px !important;
+  --border-color: var(--ion-color-tertiary);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.click-button {
+  width: 55% !important;
+  height: 70% !important;
+  font-size: 90%;
+}

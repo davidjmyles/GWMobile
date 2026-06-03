@@ -1,0 +1,170 @@
+<ion-header>
+  <ion-toolbar color="dark" class="top-padding">
+    <ion-buttons slot="end">
+      <ion-button
+        slot="icon-only"
+        size="large"
+        strong
+        [routerLink]="['/tabnav/auth']"
+      >
+        <ion-icon
+          name="arrow-back-circle-outline"
+          size="large"
+          class="big-buttons"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-row>
+    <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+      <ion-card>
+        <ion-card-content>
+          <h2 class="ion-text-justify">
+            A password reset code has been sent to your registered email
+            address. Please enter this code below, along with your new password.
+            Your code is valid for 5 minutes from time of request. If this time
+            has elapsed, please click 'request new code'
+          </h2>
+          <hr />
+          <h2 class="ion-text-justify">
+            Your new password should be 8-16 characters in length and contain at
+            least 1 uppercase letter, 1 lowercase letter, 1 number, and special
+            character from @ ! ? *
+          </h2>
+        </ion-card-content>
+      </ion-card>
+      <hr />
+      <hr />
+    </ion-col>
+  </ion-row>
+  <form [formGroup]="formReset">
+    <ion-grid>
+      <ion-row>
+        <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+          <ion-item
+            fill="outline"
+            class="large-font box-border button-padding"
+            lines="none"
+            [class.invalid]="formReset.controls.resetCodeUser.dirty && !formReset.get('resetCodeUser').valid"
+          >
+            <ion-input
+              type="text"
+              formControlName="resetCodeUser"
+              placeholder="reset code"
+            ></ion-input>
+          </ion-item>
+          <ion-item
+            class="form-error"
+            *ngIf="!formReset.controls.resetCodeUser.valid && submitAttempt"
+          >
+            <ion-label class="ion-text-wrap">this field is required</ion-label>
+          </ion-item>
+          <hr />
+          <ion-item
+            fill="outline"
+            class="large-font box-border button-padding"
+            lines="none"
+            [class.invalid]="formReset.controls.password.dirty && !formReset.get('password').valid"
+          >
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="password"
+              formControlName="password"
+            ></ion-input>
+            <ion-icon
+              slot="end"
+              [name]="passwordIcon"
+              (click)="toggleViewPassword()"
+            >
+            </ion-icon>
+          </ion-item>
+          <ion-item
+            class="form-error"
+            *ngIf="!formReset.controls.password.valid && submitAttempt"
+          >
+            <ion-label class="ion-text-wrap">this field is required</ion-label>
+          </ion-item>
+          <ion-item
+            class="form-error"
+            *ngIf="formReset.controls.password.dirty && !formReset.controls.password.valid"
+          >
+            <ion-label class="ion-text-wrap"
+              >password must be 8-16 characters & contain at least 1 number, 1
+              uppercase letter, 1 lowercase letter & 1 of @!?*</ion-label
+            >
+          </ion-item>
+          <ion-item
+            class="form-error"
+            *ngIf="!formReset.controls.password.valid && submitAttempt"
+          >
+            <ion-label class="ion-text-wrap">this field is required</ion-label>
+          </ion-item>
+          <hr />
+          <ion-item
+            fill="outline"
+            class="large-font box-border button-padding"
+            lines="none"
+            background="tertiary"
+            [class.invalid]="formReset.controls.confirmPassword.dirty && !formReset.get('confirmPassword').valid"
+          >
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              placeholder="confirm password"
+            ></ion-input>
+          </ion-item>
+          <ion-item
+            class="form-error"
+            *ngIf="formReset.controls.confirmPassword.dirty 
+                && formReset.hasError('passwordNotMatch') 
+                && formReset.controls.password.valid"
+          >
+            <ion-label>passwords do not match</ion-label>
+          </ion-item>
+          <ion-item
+            class="form-error"
+            *ngIf="!formReset.controls.confirmPassword.valid && submitAttempt"
+          >
+            <ion-label class="ion-text-wrap">this field is required</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <ion-row>
+        <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+          <ion-button
+            type="submit"
+            class="large-font large-button button-padding"
+            style="font-weight: bolder"
+            (click)="resetPassword()"
+            expand="block"
+            [color]="!formReset.valid? 'primary':'success'"
+            >Submit</ion-button
+          >
+          <hr />
+          <ion-button
+            class="large-font large-button button-padding resend"
+            type="button"
+            expand="block"
+            (click)="resendCode()"
+            >Request New Code</ion-button
+          >
+          <hr />
+          <ion-button
+            class="large-font large-button button-padding cancel"
+            type="button"
+            expand="block"
+            [routerLink]="['/tabnav/auth']"
+            >Cancel Password Reset</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

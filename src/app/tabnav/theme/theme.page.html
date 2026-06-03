@@ -1,0 +1,156 @@
+<!-- <ion-content color="dark">
+  <div
+    style="
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    "
+    class="demo-wrap"
+  >
+    <div *ngIf="largeScreen">
+      <img class="demo-bg" src="assets/img/croppedTheme3.jpg" alt="" />
+    </div>
+    <div *ngIf="shortScreen">
+      <img class="demo-bg" src="assets/img/croppedTheme2x.jpg" alt="" />
+    </div>
+    <div *ngIf="standardScreen">
+      <img class="demo-bg" src="assets/img/croppedTheme2.jpg" alt="" />
+    </div>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <ion-grid>
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <ion-row>
+          <ion-col>
+            <div class="justify">
+              <h2>
+                In the box below, please enter the setup code received from your
+                lottery provider
+              </h2>
+            </div>
+          </ion-col>
+        </ion-row>
+        <hr />
+        <ion-row>
+          <ion-col>
+            <ion-item fill="outline" class="large-font box-border" lines="none">
+              <ion-input
+                type="text"
+                [(ngModel)]="code"
+                name="code"
+                required
+                code
+                #codeCtrl="ngModel"
+                class="ion-text-center"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <hr />
+        <ion-row>
+          <ion-col>
+            <ion-button
+              class="large-font large-button"
+              style="font-weight: bolder"
+              type="submit"
+              expand="block"
+              [disabled]="!f.valid"
+            >
+              Submit</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content> -->
+<ion-content color="dark">
+  <!-- <div *ngIf="largeScreen">
+      <img class="demo-bg" src="assets/img/croppedTheme3.jpg" alt="" />
+    </div>
+    <div *ngIf="shortScreen">
+      <img class="demo-bg" src="assets/img/croppedTheme2x.jpg" alt="" />
+    </div>
+    <div *ngIf="standardScreen"> -->
+  <!-- </div> -->
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid>
+      <hr />
+      <hr />
+      <hr />
+      <!-- <img src="assets/img/lotterylink.jpg" alt="" /> -->
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <ion-row>
+        <ion-col>
+          <div class="justify">
+            <h2>
+              In the box below, please enter the setup code received from your
+              lottery provider
+            </h2>
+          </div>
+        </ion-col>
+      </ion-row>
+      <hr />
+      <ion-row>
+        <ion-col>
+          <ion-item fill="outline" class="large-font box-border" lines="none">
+            <ion-input
+              type="text"
+              [(ngModel)]="code"
+              name="code"
+              required
+              code
+              #codeCtrl="ngModel"
+              class="ion-text-center"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <hr />
+      <ion-row>
+        <ion-col>
+          <ion-button
+            class="large-font large-button"
+            style="font-weight: bolder"
+            type="submit"
+            expand="block"
+            [disabled]="!f.valid"
+          >
+            Submit</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

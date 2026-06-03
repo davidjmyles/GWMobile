@@ -1,0 +1,214 @@
+<ion-header>
+  <ion-toolbar color="medium" class="top-padding">
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" size="large" strong id="modal-trigger3">
+        <ion-icon name="help-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-modal
+        trigger="modal-trigger3"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+      >
+        <ng-template>
+          <ion-content>
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-header>
+                <h3 class="ion-text-center" style="font-weight: bolder">
+                  Payments Page
+                </h3>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  This page shows details of payments made over the last 12
+                  months, as well as a summary of your payment status. If you
+                  have multiple memberships, this information relates to the one
+                  currently selected.
+                </h2>
+                <hr />
+                <h2>
+                  For any queries, please call {{ providerName }} on {{
+                  providerNumber }} or email at {{ providerEmail }}
+                </h2>
+                <hr />
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseAbout()"
+                  fill="outline"
+                  color="dark"
+                  >close window</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center" style="font-size: 120%"
+      >Payments</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" size="large" strong (click)="onLogout()">
+        <ion-icon name="log-out-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="doRefresh($event)"
+    class="refresher"
+  >
+    <ion-refresher-content class="white"> </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-row style="height: 100vh !important">
+      <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+        <ion-card>
+          <ion-card-header>
+            <!-- <ion-card-title style="font-size: 120%"
+              >Payments Summary</ion-card-title
+            >
+            <hr /> -->
+            <ion-card-content class="item-no-padding">
+              <ion-item
+                lines="none"
+                class="card-detail box-border"
+                fill="outline"
+              >
+                <ion-icon name="cash" slot="start"></ion-icon>
+                <h2 style="color: grey">Donations YTD</h2>
+                <h2 style="font-weight: bold; font-size: large" slot="end">
+                  £{{ balance | number : '1.2-2' }}
+                </h2>
+              </ion-item>
+              <hr />
+              <ion-item
+                class="big-font"
+                fill="outline"
+                class="large-font box-border"
+                lines="none"
+              >
+                <ion-label>Select Parish</ion-label>
+                <ion-select
+                  interface="action-sheet"
+                  class="select"
+                  (ionChange)="updateParish($event)"
+                >
+                  <!-- <ion-select-option [value]="all">All</ion-select-option> -->
+                  <ion-select-option
+                    value="parish"
+                    *ngFor="let parish of parishList"
+                    [value]="parish"
+                  >
+                    {{ parish }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-card-content>
+          </ion-card-header>
+        </ion-card>
+        <ion-card *ngIf="paymentsAvailable">
+          <div *ngIf="showAllPayments">
+            <div *ngFor="let payment of paymentsArray">
+              <ion-card
+                class="fixed-content-parent item-no-padding border"
+                color="primary"
+              >
+                <ion-card-header>
+                  <ion-card-title style="font-size: 120%">
+                    {{payment.date | date: 'dd MMMM yyyy'}}
+                  </ion-card-title>
+                  <hr />
+                  <ion-row>
+                    <ion-card-subtitle>
+                      {{ payment.parish }}
+                    </ion-card-subtitle>
+                    <!-- <ion-card-subtitle> &nbsp;///&nbsp; </ion-card-subtitle> -->
+                    <ion-card-subtitle
+                      style="color: var(--ion-color-secondary)"
+                    >
+                      &nbsp;&nbsp;{{ payment.fund }}
+                    </ion-card-subtitle>
+                  </ion-row>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-item lines="none" class="ion-no-padding" color="primary">
+                    <p slot="start" class="prize-position">
+                      {{ payment.method }}
+                    </p>
+                    <p slot="end" class="amount-note">
+                      £{{ payment.amount | number : '1.2-2'}}
+                    </p>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </div>
+          <div *ngIf="!showAllPayments">
+            <div *ngFor="let payment of filteredArray">
+              <ion-card
+                class="fixed-content-parent item-no-padding border"
+                color="primary"
+              >
+                <ion-card-header>
+                  <ion-card-title style="font-size: 120%">
+                    {{payment.date | date: 'dd MMMM yyyy'}}
+                  </ion-card-title>
+                  <hr />
+                  <ion-row>
+                    <ion-card-subtitle>
+                      {{ payment.parish }}
+                    </ion-card-subtitle>
+                    <!-- <ion-card-subtitle> &nbsp;///&nbsp; </ion-card-subtitle> -->
+                    <ion-card-subtitle
+                      style="color: var(--ion-color-secondary)"
+                    >
+                      &nbsp;&nbsp;{{ payment.fund }}
+                    </ion-card-subtitle>
+                  </ion-row>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-item lines="none" class="ion-no-padding" color="primary">
+                    <p slot="start" class="prize-position">
+                      {{ payment.method }}
+                    </p>
+                    <p slot="end" class="amount-note">
+                      £{{ payment.amount | number : '1.2-2'}}
+                    </p>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </div>
+          <!-- <ion-list>
+            <ion-item *ngFor="let payment of paymentsArray">
+              <ion-label class="large-font">
+                {{ payment.date | date: 'dd MMMM yyyy'}}
+              </ion-label>
+              <ion-note slot="end" class="amount-note large-font"
+                >£{{ payment.amount | number : '1.2-2'}}</ion-note
+              >
+            </ion-item>
+          </ion-list> -->
+        </ion-card>
+        <ion-card *ngIf="!paymentsAvailable">
+          <ion-item>
+            <ion-label class="ion-text-wrap ion-text-center">
+              <h2>payment information currently unavailable</h2>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

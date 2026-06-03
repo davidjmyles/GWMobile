@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="dark" class="top-padding">
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" size="large" strong (click)="onLogout()">
+        <ion-icon name="log-out-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-content color="background">
+    <ion-grid>
+      <ion-row>
+        <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+          <ion-card>
+            <ion-card-content>
+              <h2 class="ion-text-justify">
+                We have been unable to match the email address you submitted
+                with a valid player account. Your email is shown below:
+              </h2>
+
+              <ion-card
+                style="
+                  padding-left: 0%;
+                  padding-right: 0%;
+                  margin-left: 0%;
+                  margin-right: 0%;
+                "
+                class="ion-text-center"
+              >
+                <ion-card-content>
+                  <h4 style="font-weight: bold">{{userEmail}}</h4>
+                </ion-card-content>
+              </ion-card>
+
+              <h2 class="ion-text-justify">
+                If this is incorrect, please click 'return to register' and
+                submit your details again with the correct email
+              </h2>
+              <hr />
+              <h2 class="ion-text-justify">
+                If your email is correct, please contact us using one of the
+                options below so that we can resolve this and complete your
+                registration
+              </h2>
+            </ion-card-content>
+          </ion-card>
+          <hr />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+          <ion-button
+            expand="block"
+            color="buttons"
+            shape="round"
+            class="button-padding"
+            (click)="onReturnToSignup()"
+            >return to signup
+          </ion-button>
+          <hr />
+          <hr />
+          <hr />
+          <ion-button
+            fill="solid"
+            expand="block"
+            (click)="linkTel()"
+            color="buttons"
+            shape="round"
+            class="button-padding"
+          >
+            <ion-icon
+              slot="start"
+              name="call-outline"
+              style="font-size: xx-large"
+            ></ion-icon>
+          </ion-button>
+          <hr />
+          <ion-button
+            fill="solid"
+            expand="block"
+            (click)="linkEmail()"
+            color="buttons"
+            shape="round"
+            class="button-padding"
+          >
+            <ion-icon
+              slot="start"
+              name="mail-outline"
+              style="font-size: xx-large"
+            ></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-content>

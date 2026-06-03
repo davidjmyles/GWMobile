@@ -1,0 +1,24 @@
+.box-border {
+  --border-width: 2px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.justify {
+  text-align: justify;
+}
+
+.demo-wrap {
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.demo-bg {
+  opacity: 0.2 !important;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto !important;
+  height: 100% !important;
+}

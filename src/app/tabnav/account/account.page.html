@@ -1,0 +1,792 @@
+<ion-header>
+  <ion-toolbar color="medium" class="top-padding">
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" size="large" strong id="modal-trigger2">
+        <ion-icon name="help-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-modal
+        trigger="modal-trigger2"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+      >
+        <ng-template>
+          <ion-content class="large-modal-font">
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-header>
+                <h3 class="ion-text-center" style="font-weight: bolder">
+                  Account Page
+                </h3>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  This page allows you to change your personal, address &
+                  contact details, as well as your contact preferences
+                </h2>
+                <hr />
+                <h2>
+                  To update your details, slide the edit toggle for the relevant
+                  section, and click the save button when you're finished
+                </h2>
+                <hr />
+                <h2>
+                  For any queries, please call {{ providerName }} on {{
+                  providerNumber }} or email at {{ providerEmail }}
+                </h2>
+                <hr />
+                <h2>
+                  For more information on how we use your data please click on
+                  the button below
+                </h2>
+                <hr />
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onViewPrivacy()"
+                  fill="solid"
+                  >view privacy policy</ion-button
+                >
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseAbout()"
+                  fill="outline"
+                  color="dark"
+                  >close window</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center" style="font-size: 120%"
+      >Account</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" size="large" strong (click)="onLogout()">
+        <ion-icon name="log-out-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="lockAccess">
+    <ion-card>
+      <ion-card-content class="ion-text-justify">
+        <ion-item class="large-font" lines="none">
+          <h2>
+            Due to essential system maintenance, the Account Page is unavailable
+            at this time. If you wish to update any of your account details,
+            please retry after {{ maintenanceEndDate | date: 'HH:mm' }} on {{
+            maintenanceEndDate | date: 'dd/MM/yyyy' }}
+          </h2>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div *ngIf="!lockAccess">
+    <form [formGroup]="formPersonal">
+      <ion-grid
+        class="ion-no-padding"
+        style="background-color: var(--ion-color-background)"
+      >
+        <ion-row>
+          <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+            <ion-card>
+              <ion-card-header>
+                <ion-item lines="none" class="big-font">
+                  <h3 class="big-font">Personal Details</h3>
+                  <ion-item slot="end" lines="none" class="medium-font">
+                    <ion-label>Edit</ion-label>
+                    <ion-toggle
+                      [(ngModel)]="editModePersonal"
+                      [ngModelOptions]="{standalone: true}"
+                      [disabled]="editModePersonal"
+                    ></ion-toggle>
+                  </ion-item>
+                </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formPersonal.controls.title.dirty && !formPersonal.get('title').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-label *ngIf="!editModePersonal">{{ title }}</ion-label>
+                  <ion-select
+                    interface="action-sheet"
+                    formControlName="title"
+                    class="select"
+                    *ngIf="editModePersonal"
+                  >
+                    <ion-select-option
+                      *ngFor="let title of titles"
+                      [value]="title"
+                    >
+                      {{ title }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formPersonal.controls.title.valid && submitPersonal"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formPersonal.controls.firstName.dirty && !formPersonal.get('firstName').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    formControlName="firstName"
+                    type="text"
+                    placeholder="first name"
+                    [readonly]="!editModePersonal"
+                    maxLength="50"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formPersonal.controls.firstName.valid && submitPersonal"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formPersonal.controls.surname.dirty && !formPersonal.get('surname').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    formControlName="surname"
+                    type="text"
+                    [readonly]="!editModePersonal"
+                    maxLength="50"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formPersonal.controls.surname.valid && submitPersonal"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <div
+                  *ngIf="editModePersonal"
+                  class="disabled-button button-padding"
+                >
+                  <ion-button
+                    class="box-border"
+                    expand="block"
+                    fill="outline"
+                    color="danger"
+                    (click)="onCancelPersonal()"
+                    >cancel edit</ion-button
+                  >
+                  <hr />
+                  <ion-button
+                    class="box-border"
+                    expand="block"
+                    fill="solid"
+                    color="primary"
+                    [disabled]="!editModePersonal"
+                    type="submit"
+                    (click)="onSavePersonal()"
+                    >save new personal details</ion-button
+                  >
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <!-- <form [formGroup]="formLogin">
+    <ion-grid
+    class="ion-no-padding"
+    style="background-color: var(--ion-color-tertiary)"
+    >
+    <ion-row>
+      <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+        <ion-card>
+          <ion-card-header>
+              <ion-item lines="none" class="big-font">
+                <h3 class="big-font">Change Password</h3>
+                <ion-item slot="end" lines="none" class="medium-font">
+                  <ion-label>Edit</ion-label>
+                  <ion-toggle
+                  [(ngModel)]="editModeLogin"
+                  [ngModelOptions]="{standalone: true}"
+                  [disabled]="editModeLogin"
+                  ></ion-toggle>
+                </ion-item>
+              </ion-item>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item
+              class="big-font"
+              [class.invalid]="formLogin.controls.currentPassword.dirty && !formLogin.get('currentPassword').valid"
+              fill="outline"
+              class="large-font box-border"
+              lines="none"
+              >
+              <ion-input
+              placeholder="current password"
+              formControlName="currentPassword"
+              [type]="showPassword ? 'text' : 'password'"
+              maxLength="16"
+              >
+            </ion-input>
+                <ion-icon
+                class="align-eye-icon"
+                slot="end"
+                [name]="passwordIcon"
+                (click)="toggleViewPassword()"
+                >
+              </ion-icon>
+            </ion-item>
+            <hr />
+            <ion-item
+            class="big-font"
+            [class.invalid]="formLogin.controls.password.dirty && !formLogin.get('password').valid"
+            fill="outline"
+            class="large-font box-border"
+            lines="none"
+            >
+            <ion-input
+            placeholder="new password"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            maxLength="16"
+            ></ion-input>
+          </ion-item>
+          <hr />
+          <ion-item
+          class="form-error"
+                *ngIf="formLogin.controls.password.dirty 
+                && !formLogin.controls.password.valid
+                && editModeLogin"
+                >
+                <ion-label class="ion-text-wrap">
+                  required field which must contain at least 1 number, 1
+                  lowercase letter, 1 uppercase letter & 1 special character @ !
+                  ? *
+                </ion-label>
+              </ion-item>
+              <ion-item
+              class="big-font"
+              [class.invalid]="formLogin.controls.confirmPassword.dirty && !formLogin.get('confirmPassword').valid"
+              fill="outline"
+              class="large-font box-border"
+              lines="none"
+              >
+              <ion-input
+              placeholder="confirm new password"
+              formControlName="confirmPassword"
+              [type]="showPassword ? 'text' : 'password'"
+              [readonly]="!editModeLogin"
+              maxLength="16"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+            class="form-error"
+            *ngIf="formLogin.controls.confirmPassword.dirty 
+            && formLogin.hasError('passwordNotMatch') 
+            && formLogin.controls.password.valid"
+            >
+            <ion-label class="ion-text-wrap"
+            >passwords do not match</ion-label
+            >
+          </ion-item>
+              <ion-item
+              class="form-error"
+              *ngIf="!formLogin.controls.confirmPassword.valid && submitLogin"
+              >
+              <ion-label class="ion-text-wrap"
+              >this field is required</ion-label
+              >
+            </ion-item>
+            <hr />
+            <div *ngIf="editModeLogin" class="disabled-button button-padding">
+              <ion-button
+              class="box-border"
+              expand="block"
+              fill="outline"
+              color="danger"
+              (click)="onCancelLogin()"
+              >cancel edit</ion-button
+              >
+              <hr />
+              <ion-button
+              expand="block"
+              fill="solid"
+              color="primary"
+              [disabled]="!editModeLogin"
+              type="submit"
+              (click)="onSaveLogin()"
+              >save new password</ion-button
+              >
+            </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form> -->
+    <form [formGroup]="formAddress">
+      <ion-grid
+        class="ion-no-padding"
+        style="background-color: var(--ion-color-background)"
+      >
+        <ion-row>
+          <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+            <ion-card>
+              <ion-card-header>
+                <ion-item lines="none" class="big-font">
+                  <h3 class="big-font">Address Details</h3>
+                  <ion-item slot="end" lines="none" class="medium-font">
+                    <ion-label>Edit</ion-label>
+                    <ion-toggle
+                      [(ngModel)]="editModeAddress"
+                      [ngModelOptions]="{standalone: true}"
+                      [disabled]="editModeAddress"
+                    ></ion-toggle>
+                  </ion-item>
+                </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formAddress.controls.door.dirty && !formAddress.get('door').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    placeholder="door"
+                    formControlName="door"
+                    [readonly]="!editModeAddress"
+                    maxLength="20"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formAddress.controls.door.valid && submitAddress"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formAddress.controls.address1.dirty && !formAddress.get('address1').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    placeholder="address line 1"
+                    type="text"
+                    formControlName="address1"
+                    [readonly]="!editModeAddress"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formAddress.controls.address1.valid && submitAddress"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    formControlName="address2"
+                    [readonly]="!editModeAddress"
+                    placeholder="address line 2 (optional)"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    formControlName="address3"
+                    [readonly]="!editModeAddress"
+                    placeholder="address line 3 (optional)"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    formControlName="address4"
+                    [readonly]="!editModeAddress"
+                    placeholder="address line 4 (optional)"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formAddress.controls.postcode.dirty && !formAddress.get('postcode').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    placeholder="postcode"
+                    formControlName="postcode"
+                    [readonly]="!editModeAddress"
+                    maxLength="8"
+                    autocapitalize="characters"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  lines="none"
+                  class="form-error"
+                  *ngIf="!formAddress.controls.postcode.valid && formAddress.controls.postcode.dirty"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >please ensure you have entered a valid postcode including a
+                    space</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <div
+                  *ngIf="editModeAddress"
+                  class="disabled-button button-padding"
+                >
+                  <ion-button
+                    class="box-border"
+                    expand="block"
+                    fill="outline"
+                    color="danger"
+                    (click)="onCancelAddress()"
+                    >cancel edit</ion-button
+                  >
+                  <hr />
+                  <ion-button
+                    expand="block"
+                    fill="solid"
+                    color="primary"
+                    [disabled]="!editModeAddress"
+                    type="submit"
+                    (click)="onSaveAddress()"
+                    >save new address details</ion-button
+                  >
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <form [formGroup]="formContact">
+      <ion-grid
+        class="ion-no-padding"
+        style="background-color: var(--ion-color-background)"
+      >
+        <ion-row>
+          <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+            <ion-card>
+              <ion-card-header>
+                <ion-item lines="none" class="big-font">
+                  <h3 class="big-font">Contact Details</h3>
+                  <ion-item slot="end" lines="none" class="medium-font">
+                    <ion-label>Edit</ion-label>
+                    <ion-toggle
+                      [(ngModel)]="editModeContactDetails"
+                      [ngModelOptions]="{standalone: true}"
+                      [disabled]="editModeContactDetails"
+                    ></ion-toggle>
+                  </ion-item>
+                </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+                <!-- <ion-item *ngFor="let method of s1Array">
+                <ion-label
+                position="fixed"
+                style="font-size: 80%"
+                class="wider-input"
+                >{{ method.name }}:
+              </ion-label>
+              <ion-input
+              class="small-email"
+              type="text"
+              [readonly]="!editModeContactDetails"
+              [formControlName]="method.contactMethodId"
+              ></ion-input>
+            </ion-item> -->
+                <ion-list *ngFor="let method of s1Array">
+                  <ion-item
+                    fill="outline"
+                    class="large-font box-border"
+                    lines="none"
+                  >
+                    <ion-input
+                      class="small-email"
+                      type="text"
+                      placeholder="{{ method.name }}"
+                      [readonly]="!editModeContactDetails"
+                      [formControlName]="method.contactMethodId"
+                      maxLength="100"
+                    ></ion-input>
+                  </ion-item>
+                  <hr />
+                </ion-list>
+                <div
+                  *ngIf="editModeContactDetails"
+                  class="disabled-button button-padding"
+                >
+                  <ion-button
+                    class="box-border"
+                    expand="block"
+                    fill="outline"
+                    color="danger"
+                    (click)="onCancelContactDetails()"
+                    >cancel edit</ion-button
+                  >
+                  <hr />
+                  <ion-button
+                    expand="block"
+                    fill="solid"
+                    color="primary"
+                    [disabled]="!editModeContactDetails"
+                    type="submit"
+                    (click)="onSaveContactDetails()"
+                    >save new contact details</ion-button
+                  >
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+            <ion-card>
+              <ion-card-header>
+                <ion-item lines="none" class="big-font">
+                  <h3 class="big-font">Contact Preferences</h3>
+                  <ion-item slot="end" lines="none" class="medium-font">
+                    <ion-label>Edit</ion-label>
+                    <ion-toggle
+                      [(ngModel)]="editModeContactPreferences"
+                      [ngModelOptions]="{standalone: true}"
+                      [disabled]="editModeContactPreferences"
+                    ></ion-toggle>
+                  </ion-item>
+                </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-list *ngFor="let method of s2Array; let i = index">
+                  <ion-item
+                    fill="outline"
+                    class="large-font box-border"
+                    lines="none"
+                    ><ion-label
+                      position="fixed"
+                      style="font-size: 90%"
+                      class="fixme full-text"
+                      >{{ method.name }}
+                    </ion-label>
+                    <ion-checkbox
+                      slot="end"
+                      [attr.disabled]="!editModeContactPreferences"
+                      [formControlName]="method.contactMethodId"
+                    ></ion-checkbox>
+                  </ion-item>
+                  <hr />
+                </ion-list>
+                <div
+                  *ngIf="editModeContactPreferences"
+                  class="disabled-button button-padding"
+                >
+                  <ion-button
+                    class="box-border"
+                    expand="block"
+                    fill="outline"
+                    color="danger"
+                    (click)="onCancelContactPreferences()"
+                    >cancel edit</ion-button
+                  >
+                  <hr />
+                  <ion-button
+                    expand="block"
+                    fill="solid"
+                    color="primary"
+                    [disabled]="!editModeContactPreferences"
+                    type="submit"
+                    (click)="onSaveContactPreferences()"
+                    >save new contact preferences</ion-button
+                  >
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+            <ion-card>
+              <ion-card-content>
+                <ion-button
+                  expand="block"
+                  fill="solid"
+                  color="danger"
+                  id="modal-delete"
+                  >Delete GiftLink Account</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-modal
+          trigger="modal-delete"
+          class="large-modal"
+          [initialBreakpoint]="0.85"
+          [breakpoints]="[0, 0.85, 1]"
+          (ionModalDidDismiss)="onCloseDelete()"
+        >
+          <ng-template>
+            <ion-content>
+              <form [formGroup]="formDelete">
+                <ion-grid
+                  class="ion-no-padding"
+                  style="background-color: var(--ion-color-background)"
+                >
+                  <ion-row>
+                    <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+                      <ion-card class="this-ion-card">
+                        <hr />
+                        <ion-card-header>
+                          <ion-card-title
+                            class="ion-text-center"
+                            style="font-weight: bolder"
+                            >Delete Account</ion-card-title
+                          >
+                        </ion-card-header>
+                        <hr />
+                        <ion-card-content
+                          class="ion-text-justify large-modal-font"
+                        >
+                          <h2>
+                            To delete your LotteryLink account, click on the
+                            button below. All of your data stored by Lotterylink
+                            will be deleted, and you will no longer be able to
+                            access the app.
+                          </h2>
+                          <hr />
+                          <h2>
+                            Please note, this action only deletes your account &
+                            data related to LotteryLink. Your player account
+                            will be unaffected, and you will still be able to
+                            play our lottery as normal.
+                          </h2>
+                          <hr />
+                          <hr />
+                          <!-- <ion-item
+                            class="big-font"
+                            fill="outline"
+                            class="large-font box-border"
+                            lines="none"
+                          >
+                            <ion-input
+                              placeholder="password"
+                              formControlName="deletePassword"
+                              [type]="showPassword ? 'text' : 'password'"
+                              maxLength="16"
+                            >
+                            </ion-input>
+                          </ion-item>
+                          <hr />
+                          <ion-item
+                            class="form-error"
+                            *ngIf="submitAttempt 
+                            && !formLogin.controls.password.valid"
+                          >
+                            <ion-label class="ion-text-wrap">
+                              required field which must contain at least 1
+                              number, 1 lowercase letter, 1 uppercase letter & 1
+                              special character @ ! ? *
+                            </ion-label>
+                          </ion-item> -->
+                          <hr />
+                          <hr />
+                          <hr />
+                          <ion-button
+                            expand="block"
+                            (click)="onDeleteAccount()"
+                            fill="outline"
+                            color="danger"
+                            >delete account</ion-button
+                          >
+                          <hr />
+                          <ion-button
+                            expand="block"
+                            (click)="onCloseDelete()"
+                            fill="outline"
+                            color="dark"
+                            >close window</ion-button
+                          >
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </form>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>

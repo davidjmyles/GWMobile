@@ -1,0 +1,111 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+// Additional colour file import
+@import "./theme/colors.scss";
+
+ion-toolbar {
+  --min-height: 60px !important;
+}
+
+ion-tab-bar {
+  height: 60px !important;
+}
+
+.top-padding {
+  height: 100%;
+  display: flex;
+  align-items: center !important;
+}
+
+.modal-button {
+  color: black !important;
+  --border-color: black;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+}
+
+:root {
+  ion-tab-button.tab-selected {
+    ion-icon,
+    ion-label {
+      color: var(--ion-color-primary) !important;
+      --ion-color-base: var(--ion-color-primary) !important;
+    }
+  }
+}
+
+:root {
+  .action-sheet-button {
+    color: black !important;
+  }
+}
+
+:root {
+  .action-sheet-button.action-sheet-cancel {
+    color: rgb(211, 36, 36) !important;
+  }
+}
+
+:root {
+  .alert-button.alert-button-role-cancel {
+    color: rgb(211, 36, 36) !important;
+  }
+}
+
+:root {
+  .alert-button.alert-button-ok {
+    background-color: var(--ion-color-secondary);
+    color: var(--ion-color-secondary-contrast) !important;
+  }
+}
+
+:root {
+  .alert-button.alert-button-password {
+    background-color: var(--ion-color-tertiary);
+    color: var(--ion-color-tertiary-contrast) !important;
+  }
+}
+
+// :root {
+//   ion-refresher-content {
+//     color: white !important;
+//   }
+//
+
+ion-refresher ion-refresher-content {
+  --color: var(--ion-color-secondary) !important;
+
+  .refresher-pulling-text,
+  .refresher-refreshing-text,
+  .refresher-refreshing-icon,
+  .refresher-pulling-icon {
+    color: var(--ion-color-secondary) !important;
+  }
+}

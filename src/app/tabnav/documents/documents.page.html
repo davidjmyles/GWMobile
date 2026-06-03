@@ -1,0 +1,240 @@
+<ion-header>
+  <ion-toolbar color="medium" class="top-padding">
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" size="large" strong id="modal-trigger5">
+        <ion-icon name="help-outline" size="large"></ion-icon>
+      </ion-button>
+      <!-- <ion-modal
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+        trigger="doc-modal"
+        [isOpen]="displayDoc"
+      >
+        <ng-template>
+          <ion-content>
+            <ion-img src="{{ docToView }}"></ion-img>
+          </ion-content>
+        </ng-template>
+      </ion-modal> -->
+      <ion-modal
+        trigger="modal-trigger5"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+      >
+        <ng-template>
+          <ion-content>
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-header>
+                <h3 class="ion-text-center" style="font-weight: bolder">
+                  Documents Page
+                </h3>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  This page gives you mobile access documents related to your
+                  lottery account.
+                </h2>
+                <hr />
+                <h2>Click on a document to view it on your device.</h2>
+                <hr />
+                <h2>
+                  You can filter the view to only show unopened documents. You
+                  can also edit the list to delete opened documents, excluding
+                  certain locked account files.
+                </h2>
+                <hr />
+                <h2>
+                  For any queries, please call {{ providerName }} on {{
+                  providerNumber }} or email at {{ providerEmail }}
+                </h2>
+                <hr />
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseAbout()"
+                  fill="outline"
+                  color="dark"
+                  >close window</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center" style="font-size: 120%"
+      >Documents</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button
+        slot="icon-only"
+        size="large"
+        strong
+        (click)="navigateToDashboard()"
+      >
+        <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="doRefresh($event)"
+    class="refresher"
+  >
+    <ion-refresher-content class="white"></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+        <div *ngIf="!lockAccess">
+          <div *ngIf="documentsAvailable">
+            <ion-card class="top-card">
+              <ion-item lines="full">
+                <p class="test">Hide Opened Documents</p>
+                <ion-checkbox
+                  slot="end"
+                  (ionChange)="toggleReadUnread()"
+                ></ion-checkbox>
+              </ion-item>
+              <ion-item lines="none">
+                <p class="test">Edit Documents List</p>
+                <ion-checkbox
+                  slot="end"
+                  (ionChange)="toggleEditMode()"
+                ></ion-checkbox>
+              </ion-item>
+            </ion-card>
+            <div *ngIf="!hideOpenedDocs">
+              <div *ngFor="let document of documentArray">
+                <ion-card class="card-border">
+                  <ion-card-header>
+                    <h4 class="title-color">{{ document.title }}</h4>
+                  </ion-card-header>
+                  <ion-card-content style="padding: 0% !important">
+                    <ion-item lines="none">
+                      <h2 style="color: grey">
+                        {{ document.date | date: 'dd MMMM yyyy'}}
+                      </h2>
+                      <div *ngIf="!docsEditMode" slot="end">
+                        <ion-button
+                          slot="end"
+                          (click)="openDocument(document.documentId)"
+                          fill="outline"
+                          color="medium"
+                          expand="block"
+                        >
+                          Click To View
+                          <ion-icon
+                            [name]="document.read? 'mail-open-outline': 'mail-unread-outline'"
+                            slot="end"
+                          ></ion-icon>
+                        </ion-button>
+                      </div>
+                      <div
+                        *ngIf="docsEditMode && document.read && !document.locked"
+                        slot="end"
+                      >
+                        <ion-button
+                          slot="end"
+                          (click)="deleteDocument(document.documentId)"
+                          fill="solid"
+                          color="danger"
+                          expand="block"
+                        >
+                          Delete
+                          <ion-icon
+                            name="close-circle-outline"
+                            slot="end"
+                          ></ion-icon>
+                        </ion-button>
+                      </div>
+                      <div *ngIf="docsEditMode && document.locked" slot="end">
+                        <ion-icon
+                          name="lock-closed-outline"
+                          slot="icon-only"
+                          size="large"
+                        ></ion-icon>
+                      </div>
+                    </ion-item>
+                  </ion-card-content>
+                </ion-card>
+              </div>
+            </div>
+            <div *ngIf="hideOpenedDocs">
+              <div *ngFor="let document of unreadDocumentsArray">
+                <ion-card class="card-border">
+                  <ion-card-header>
+                    <h4 class="title-color">{{ document.title }}</h4>
+                  </ion-card-header>
+                  <ion-card-content style="padding: 0% !important">
+                    <ion-item lines="none">
+                      <h2 style="color: grey">
+                        {{ document.date | date: 'dd MMMM yyyy'}}
+                      </h2>
+                      <div slot="end">
+                        <ion-button
+                          slot="end"
+                          (click)="openDocument(document.documentId)"
+                          fill="outline"
+                          color="medium"
+                          expand="block"
+                        >
+                          Click To View
+                          <ion-icon
+                            [name]="document.read? 'mail-open-outline' : 'mail-unread-outline'"
+                            slot="end"
+                          ></ion-icon>
+                        </ion-button>
+                      </div>
+                    </ion-item>
+                  </ion-card-content>
+                </ion-card>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="noUnreadDocuments && documentsAvailable && hideOpenedDocs"
+          >
+            <ion-card>
+              <ion-item>
+                <ion-label class="ion-text-wrap ion-text-center">
+                  <h3>You Have No New Documents To View</h3>
+                </ion-label>
+              </ion-item>
+            </ion-card>
+          </div>
+          <div *ngIf="!documentsAvailable">
+            <ion-card>
+              <ion-item>
+                <ion-label class="ion-text-wrap ion-text-center">
+                  <h3>You Have No Documents To View</h3>
+                </ion-label>
+              </ion-item>
+            </ion-card>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="lockAccess">
+    <ion-card-content class="ion-text-justify">
+      <ion-item class="large-font" lines="none">
+        <h3>
+          Due to essential system maintenance, documents cannot be viewed at
+          this time. Please retry after {{ maintenanceEndDate | date: 'HH:mm' }}
+          on {{ maintenanceEndDate | date: 'dd/MM/yyyy' }}
+        </h3>
+      </ion-item>
+    </ion-card-content>
+  </div>
+</ion-content>

@@ -1,0 +1,368 @@
+ion-refresher {
+  z-index: 0;
+}
+
+gw1 {
+  width: 100%;
+  height: 100%;
+}
+
+.test {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: white !important;
+  height: 100%;
+  padding: 0% !important;
+  margin: 0% !important;
+  margin-top: -15% !important;
+  background-color: var(--ion-color-background) !important;
+}
+
+.box-border {
+  --border-width: 1px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.card-detail {
+  padding-left: 0% !important;
+}
+
+.modal-header {
+  border-top: 5px solid;
+  border-bottom: 5px solid;
+  border-color: var(--ion-color-tertiary);
+}
+
+.largeAmount {
+  font-size: 200%;
+}
+
+.topPadding {
+  height: 100%;
+  display: flex;
+  align-items: center !important;
+}
+
+.cardBadges {
+  width: 80%;
+  height: 100%;
+  justify-content: center !important;
+  align-items: center !important;
+  border-radius: 30% !important;
+  text-align: center !important;
+  display: flex !important;
+  box-shadow: none;
+  margin-right: 10% !important;
+}
+
+.countdown {
+  height: 100%;
+  justify-content: center !important;
+  align-items: center !important;
+  border-radius: 30% !important;
+  text-align: center !important;
+  display: flex !important;
+  box-shadow: none;
+}
+
+.cardLabels {
+  width: 90%;
+  height: 100%;
+  margin-top: -10%;
+  font-size: 100%;
+  justify-content: center !important;
+  //border-radius: 10% !important;
+  align-items: top !important;
+  display: flex !important;
+  background-color: white;
+  box-shadow: none;
+}
+
+.row1 {
+  height: 19vh;
+}
+
+.row2 {
+  height: 19vh;
+}
+
+.row4 {
+  height: 15vh;
+}
+
+.fixed-content-parent {
+  position: relative;
+}
+
+.fixed-content-child {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.rowx {
+  height: 10vh;
+}
+
+.margin {
+  margin-top: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 3%;
+}
+
+.badge {
+  padding-left: 20%;
+}
+
+.badge0 {
+  color: var(--ion-color-tertiary-contrast);
+}
+
+.badge1 {
+  background-color: var(--ion-color-primary);
+  border: 4px solid var(--ion-color-border2);
+}
+.badge-text1 {
+  color: var(--ion-color-primary-contrast);
+}
+
+.badge2 {
+  background-color: var(--ion-color-secondary);
+  border: 4px solid var(--ion-color-border3);
+}
+.badge-text2 {
+  color: var(--ion-color-secondary-contrast);
+}
+
+.badge3 {
+  background-color: var(--ion-color-tertiary);
+  border: 4px solid var(--ion-color-border4);
+}
+.badge-text3 {
+  color: var(--ion-color-tertiary-contrast);
+}
+
+.badge4 {
+  background-color: var(--ion-color-medium);
+  border: 4px solid var(--ion-color-border5);
+}
+.badge-text4 {
+  color: var(--ion-color-medium-contrast);
+}
+
+.badge5 {
+  background-color: var(--ion-color-drawone);
+  color: var(--ion-color-drawone-contrast);
+}
+.badge-text5 {
+  color: var(--ion-color-drawone-contrast);
+}
+
+.badge6 {
+  background-color: var(--ion-color-drawtwo);
+  color: var(--ion-color-drawtwo-contrast);
+}
+.badge-text6 {
+  color: var(--ion-color-drawtwo-contrast);
+}
+
+.badge7 {
+  background-color: var(--ion-color-drawthree);
+  color: var(--ion-color-drawthree-contrast);
+}
+
+.badge-text7 {
+  color: var(--ion-color-drawthree-contrast);
+}
+
+.badge8 {
+  border: 4px solid var(--ion-color-drawborder);
+}
+
+.small-badge {
+  background-color: var(--ion-color-tertiary);
+  color: var(--ion-color-tertiary-contrast);
+}
+
+.darkContent {
+  background-color: var(--ion-color-dark);
+  color: var(--ion-color-dark-contrast);
+}
+
+// ion-card {
+//   margin: 0px;
+//   border-radius: 0px;
+//   height: 100%;
+//   box-shadow: none;
+// }
+
+.things {
+  margin: 0%;
+  padding: 0% !important;
+  border-radius: 0px;
+  //height: 100%;
+  vertical-align: middle;
+}
+
+.stuff {
+  border-radius: 10px !important;
+  //margin: 5% !important;
+  height: 95% !important;
+  width: 95% !important;
+}
+
+.stuff2 {
+  border-radius: 10px !important;
+  //margin: 5% !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.circle {
+  width: 100%;
+  border-radius: 50%;
+  text-align: center;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  aspect-ratio: 1 / 1;
+}
+
+.tertiary {
+  background-color: var(--ion-color-drawback);
+}
+
+ion-content {
+  --background: var(--ion-color-background);
+  //color: var(--ion-color-background);
+}
+
+.background {
+  //--background: rgb(50, 50, 50);
+  color: var(--ion-color-primary);
+}
+
+.border1 {
+  //border: 5px solid var(--ion-color-secondary);
+  border: 3px solid black;
+}
+
+.border2 {
+  //border: 5px solid var(--ion-color-secondary);
+  border: 3px solid black;
+}
+
+.testing {
+  --background: grey;
+  --color: var(--ion-color-primary);
+
+  // --border-color: black;
+  // --border-width: 2px;
+
+  // --border-radius: 20px;
+}
+
+.box-border {
+  --border-width: 3px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+}
+
+ion-card-title {
+  font-weight: lighter;
+  font-size: 20px;
+}
+
+ion-badge {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  size: 100px;
+  padding: 10%;
+  border-color: var(--ion-color-dark);
+  font-size: x-large !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  display: flex !important;
+}
+
+.this {
+  // justify-content: center !important;
+  // align-items: center !important;
+  // text-align: center !important;
+  // display: flex !important;
+}
+
+.bold {
+  font-size: larger !important;
+  font-weight: bold !important;
+}
+
+.space {
+  height: 100%;
+}
+
+.this-ion-card-title {
+  font-weight: bold;
+  font-size: 180%;
+}
+
+@media (max-width: 999px) {
+  .line-fix {
+    margin-top: -1%;
+  }
+}
+
+.relative {
+  position: relative;
+  bottom: 5px;
+}
+
+@media (min-width: 1000px) {
+  ion-toolbar {
+    min-height: 5vh;
+    font-size: 200%;
+  }
+
+  ion-card-title {
+    font-size: 120%;
+  }
+
+  ion-card-subtitle {
+    font-size: 75%;
+  }
+
+  ion-card {
+    font-size: 200%;
+  }
+
+  .large-modal {
+    --height: 70%;
+    --width: 70%;
+  }
+
+  .large-modal-font {
+    font-size: 80%;
+  }
+
+  .large-modal-button {
+    height: 60px;
+    font-size: 35px !important;
+  }
+
+  h2 {
+    font-size: 300%;
+  }
+
+  .cardLabels {
+    margin-top: 0%;
+  }
+
+  .largeAmount {
+    font-size: 400%;
+  }
+}

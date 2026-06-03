@@ -1,0 +1,1429 @@
+<ion-modal
+  class="large-modal testing"
+  [initialBreakpoint]="0.85"
+  [breakpoints]="[0, 1, 1]"
+  [isOpen]="displayPromo"
+  id="promo-modal"
+  (didDismiss)="onDismissPromo()"
+>
+  <ng-template>
+    <ion-content>
+      <!-- <ion-card
+        class="this-ion-card ion-card-alt"
+        style="border: 1px !important"
+      >
+        <hr />
+        <hr />
+        <ion-card-header>
+          
+            <h3 class="ion-text-center" style="font-weight: bolder">
+              {{ promoTitle }}
+            </h3>
+          <hr />
+          <hr />
+          <h5>{{ promoText }}</h5>
+        </ion-card-header>
+        <hr />
+        <hr />
+        <ion-card-content>
+          <ion-img
+            (click)="onClickPromoLink()"
+            src="{{ promoPicture }}"
+          ></ion-img>
+        </ion-card-content>
+      </ion-card> -->
+      <ion-list style="background-color: var(--ion-color-background)">
+        <!-- <ion-card class="ion-card-alt">
+          <ion-card-content>
+            <hr />
+            <ion-item
+              lines="none"
+              class="card-detail box-border"
+              color="primary"
+            >
+              <ion-label class="ion-text-center ion-text-wrap">
+                <h1>{{ promoTitle }}</h1>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card> -->
+        <ion-card class="ion-card-alt">
+          <ion-card-content>
+            <ion-img
+              (click)="onClickPromoLink()"
+              src="{{ promoPicture }}"
+            ></ion-img>
+            <hr />
+            <hr />
+            <hr />
+            <!-- <ion-card class="ion-card-alt">
+              <ion-card-content>
+                <h2>{{ promoText }}</h2>
+              </ion-card-content>
+            </ion-card> -->
+            <ion-button
+              expand="block"
+              (click)="onCloseModal()"
+              fill="solid"
+              color="primary"
+              >close window</ion-button
+            >
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<ion-menu contentId="main-content" (ionWillOpen)="updateDocuments()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons>
+        <ion-button slot="start" (click)="onCloseMenu()">
+          <ion-icon slot="icon-only" name="arrow-back-sharp"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-accordion-group #accordionGroup>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="secondary">
+          <ion-label>Membership Number {{ memberNumber }}</ion-label>
+        </ion-item>
+        <ion-item
+          *ngFor="let memberNum of memberNumberList"
+          lines="full"
+          button
+          slot="content"
+          (click)="onChangeMemberNumber(memberNum)"
+          [ngClass]="{'no-border': memberNum !== memberNumber,
+                        'border': memberNum === memberNumber}"
+          [color]="memberNum === memberNumber ? 'tertiary' : 'light'"
+        >
+          {{ memberNum }}
+        </ion-item>
+      </ion-accordion>
+    </ion-accordion-group>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <hr />
+    <hr />
+    <hr />
+    <ion-buttons>
+      <ion-button expand="block" id="modal-about">
+        <ion-item class="background" color="background">
+          <ion-icon name="information-circle-sharp" slot="start"></ion-icon>
+          <h3>About This Page</h3>
+        </ion-item>
+      </ion-button>
+    </ion-buttons>
+    <ion-modal
+      trigger="modal-about"
+      class="large-modal"
+      [initialBreakpoint]="0.85"
+      [breakpoints]="[0, 0.85, 1]"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-grid>
+            <ion-card>
+              <hr />
+              <hr />
+              <ion-card-header>
+                <ion-card-title
+                  class="ion-text-center"
+                  style="font-weight: bolder"
+                >
+                  Dashboard Page
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify">
+                <hr />
+                <h2>
+                  This page shows a summary of your lottery account, including
+                  details of winnings, balance & payments.
+                </h2>
+                <hr />
+                <h2>
+                  You can also change your password & notifications preferences,
+                  as well as update which of your memberships is displayed
+                  (where applicable).
+                </h2>
+                <hr />
+                <h2>
+                  For any queries, please call {{ providerName }} on {{
+                  providerNumber }} or email at {{ providerEmail }}
+                </h2>
+                <hr />
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseModal()"
+                  fill="outline"
+                  color="dark"
+                  >close window</ion-button
+                >
+                <hr />
+              </ion-card-content>
+            </ion-card>
+            <ion-footer>
+              <ion-card>
+                <ion-item lines="none" class="ion-text-center">
+                  <ion-label>
+                    <h3>LotteryLink v{{ appVersion }} Carn Software Ltd.</h3>
+                  </ion-label>
+                </ion-item>
+              </ion-card>
+            </ion-footer>
+          </ion-grid>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <hr />
+    <ion-buttons>
+      <ion-button id="modal-notifications">
+        <ion-item class="background" color="background">
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+          <h3>Notifications</h3>
+        </ion-item>
+      </ion-button>
+    </ion-buttons>
+    <ion-modal
+      trigger="modal-notifications"
+      class="large-modal"
+      [initialBreakpoint]="0.85"
+      [breakpoints]="[0, 0.85, 1]"
+    >
+      <div>
+        <ng-template>
+          <ion-content>
+            <form [formGroup]="formContact">
+              <ion-grid class="ion-no-padding">
+                <ion-row>
+                  <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+                    <ion-card class="this-ion-card">
+                      <hr />
+                      <ion-card-header>
+                        <ion-card-title
+                          class="ion-text-center"
+                          style="font-weight: bolder"
+                          >Notifications Preferences</ion-card-title
+                        >
+                      </ion-card-header>
+                      <hr />
+                      <hr />
+                      <ion-card-content
+                        *ngIf="!deviceNotificationsPermission"
+                        class="ion-text-justify large-modal-font"
+                      >
+                        <ion-item
+                          fill="outline"
+                          class="ion-text-justify"
+                          lines="none"
+                        >
+                          <ion-card>
+                            <h2>
+                              Your notifications for LotteryLink are currently
+                              disabled. To receive a notification when you have
+                              a new winning ticket, or an alert for low balance,
+                              please click the 'open device settings' button
+                              below and enable notifications for LotteryLink.
+                              Next, return to this page & click 'refresh' to set
+                              your preferences.
+                            </h2>
+                          </ion-card>
+                        </ion-item>
+                        <hr />
+
+                        <hr />
+                        <ion-button
+                          expand="block"
+                          fill="solid"
+                          color="primary"
+                          (click)="openDeviceSettings()"
+                          >open device settings</ion-button
+                        >
+                        <hr />
+                        <ion-button
+                          expand="block"
+                          fill="solid"
+                          color="secondary"
+                          (click)="onRefreshSettings()"
+                        >
+                          <ion-icon name="refresh-outline"></ion-icon>
+                          refresh</ion-button
+                        >
+                        <hr />
+                        <ion-button
+                          expand="block"
+                          (click)="onCloseModal()"
+                          fill="outline"
+                          >close window</ion-button
+                        >
+                      </ion-card-content>
+                      <div *ngIf="lockAccess">
+                        <ion-card-content class="ion-text-justify">
+                          <ion-item class="large-font" lines="none">
+                            <h3>
+                              Due to essential system maintenance, notifications
+                              preferences cannot be updated at this time. Please
+                              retry after {{ maintenanceEndDate | date: 'HH:mm'
+                              }} on {{ maintenanceEndDate | date: 'dd/MM/yyyy'
+                              }}
+                            </h3>
+                          </ion-item>
+                        </ion-card-content>
+                      </div>
+                      <ion-card-content
+                        *ngIf="deviceNotificationsPermission"
+                        class="ion-text-justify large-modal-font"
+                      >
+                        <ion-list
+                          *ngFor="let method of notificationsPreferences; let i = index"
+                        >
+                          <ion-item
+                            fill="outline"
+                            class="large-font box-border"
+                            lines="none"
+                            ><ion-label
+                              position="fixed"
+                              style="font-size: 90%"
+                              class="fixme full-text"
+                              >{{ method.name }}
+                            </ion-label>
+                            <ion-toggle
+                              slot="end"
+                              [formControlName]="method.contactMethodId"
+                            ></ion-toggle>
+                          </ion-item>
+                          <hr />
+                        </ion-list>
+
+                        <hr />
+                        <div *ngIf="!refreshMode">
+                          <ion-button
+                            expand="block"
+                            fill="solid"
+                            color="primary"
+                            type="submit"
+                            (click)="onSaveNewNotificationsPreferences()"
+                            [disabled]="lockAccess"
+                            >save new preferences</ion-button
+                          >
+                          <hr />
+                          <ion-button
+                            expand="block"
+                            (click)="onCloseModal()"
+                            fill="outline"
+                            color="dark"
+                            >close window</ion-button
+                          >
+                        </div>
+                        <div *ngIf="refreshMode">
+                          <ion-button
+                            expand="block"
+                            fill="solid"
+                            color="primary"
+                            type="submit"
+                            (click)="onSaveNewNotificationsPreferences()"
+                            [disabled]="lockAccess"
+                            >close</ion-button
+                          >
+                        </div>
+                        <hr />
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </form>
+          </ion-content>
+        </ng-template>
+      </div>
+    </ion-modal>
+    <hr />
+    <ion-buttons>
+      <ion-button id="modal-password">
+        <ion-item class="background" color="background">
+          <ion-icon name="enter-outline" slot="start"></ion-icon>
+          <h3>Change Password</h3>
+        </ion-item>
+      </ion-button>
+    </ion-buttons>
+    <ion-modal
+      trigger="modal-password"
+      class="large-modal"
+      [initialBreakpoint]="0.85"
+      [breakpoints]="[0, 0.85, 1]"
+      (ionModalDidDismiss)="onClosePassword()"
+    >
+      <ng-template>
+        <ion-content>
+          <form [formGroup]="formLogin">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+                  <ion-card class="this-ion-card">
+                    <hr />
+                    <ion-card-header>
+                      <ion-card-title
+                        class="ion-text-center"
+                        style="font-weight: bolder"
+                        >Change Password</ion-card-title
+                      >
+                    </ion-card-header>
+                    <hr />
+                    <hr />
+                    <div *ngIf="lockAccess">
+                      <ion-card-content class="ion-text-justify">
+                        <ion-item class="large-font" lines="none">
+                          <h3>
+                            Due to essential system maintenance, password
+                            changes cannot be completed at this time. Please
+                            retry after {{ maintenanceEndDate | date: 'HH:mm' }}
+                            on {{ maintenanceEndDate | date: 'dd/MM/yyyy' }}
+                          </h3>
+                        </ion-item>
+                      </ion-card-content>
+                    </div>
+                    <ion-card-content class="ion-text-justify large-modal-font">
+                      <ion-item
+                        class="big-font"
+                        [class.invalid]="formLogin.controls.currentPassword.dirty && !formLogin.get('currentPassword').valid"
+                        fill="outline"
+                        class="large-font box-border"
+                        lines="none"
+                      >
+                        <ion-input
+                          placeholder="current password"
+                          formControlName="currentPassword"
+                          [type]="showPassword ? 'text' : 'password'"
+                          maxLength="16"
+                        >
+                        </ion-input>
+                      </ion-item>
+                      <hr />
+                      <ion-item
+                        class="big-font"
+                        [class.invalid]="formLogin.controls.password.dirty && !formLogin.get('password').valid"
+                        fill="outline"
+                        class="large-font box-border"
+                        lines="none"
+                      >
+                        <ion-input
+                          placeholder="new password"
+                          formControlName="password"
+                          [type]="showPassword ? 'text' : 'password'"
+                          maxLength="16"
+                        ></ion-input>
+                      </ion-item>
+                      <hr />
+                      <ion-item
+                        class="form-error"
+                        *ngIf="formLogin.controls.password.dirty 
+                            && !formLogin.controls.password.valid"
+                      >
+                        <ion-label class="ion-text-wrap">
+                          required field which must contain at least 1 number, 1
+                          lowercase letter, 1 uppercase letter & 1 special
+                          character @ ! ? *
+                        </ion-label>
+                      </ion-item>
+                      <ion-item
+                        class="big-font"
+                        [class.invalid]="formLogin.controls.confirmPassword.dirty && !formLogin.get('confirmPassword').valid"
+                        fill="outline"
+                        class="large-font box-border"
+                        lines="none"
+                      >
+                        <ion-input
+                          placeholder="confirm new password"
+                          formControlName="confirmPassword"
+                          [type]="showPassword ? 'text' : 'password'"
+                          maxLength="16"
+                        ></ion-input>
+                      </ion-item>
+                      <ion-item
+                        class="form-error"
+                        *ngIf="formLogin.controls.confirmPassword.dirty 
+                            && formLogin.hasError('passwordNotMatch') 
+                             && formLogin.controls.password.valid"
+                      >
+                        <ion-label class="ion-text-wrap"
+                          >passwords do not match</ion-label
+                        >
+                      </ion-item>
+                      <ion-item
+                        class="form-error"
+                        *ngIf="!formLogin.controls.confirmPassword.valid && submitLogin"
+                      >
+                        <ion-label class="ion-text-wrap"
+                          >this field is required</ion-label
+                        >
+                      </ion-item>
+                      <hr />
+                      <ion-item
+                        class="big-font"
+                        fill="outline"
+                        class="large-font box-border"
+                        lines="none"
+                      >
+                        Show Password
+                        <ion-toggle
+                          slot="end"
+                          [(ngModel)]="showPassword"
+                          [ngModelOptions]="{standalone: true}"
+                        ></ion-toggle>
+                      </ion-item>
+                      <hr />
+                      <hr />
+                      <hr />
+                      <hr />
+                      <ion-button
+                        expand="block"
+                        fill="solid"
+                        [color]="!formLogin.valid? 'tertiary':'primary'"
+                        type="submit"
+                        (click)="onSaveNewPassword()"
+                        [disabled]="lockAccess"
+                        >save new password</ion-button
+                      >
+                      <hr />
+                      <ion-button
+                        expand="block"
+                        (click)="onClosePassword()"
+                        fill="outline"
+                        color="dark"
+                        >close window</ion-button
+                      >
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </form>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <hr />
+    <div *ngIf="biometricsAvailable">
+      <ion-buttons>
+        <ion-button id="modal-biometrics">
+          <ion-item class="background" color="background">
+            <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+            <h3>Biometric Login</h3>
+          </ion-item>
+        </ion-button>
+      </ion-buttons>
+      <ion-modal
+        trigger="modal-biometrics"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+        (ionModalDidDismiss)="onCloseBiometrics()"
+      >
+        <ng-template>
+          <ion-content>
+            <form [formGroup]="formBiometrics">
+              <ion-grid class="ion-no-padding">
+                <ion-row>
+                  <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+                    <ion-card class="this-ion-card">
+                      <hr />
+                      <ion-card-header>
+                        <ion-card-title
+                          class="ion-text-center"
+                          style="font-weight: bolder"
+                          >Biometric Login</ion-card-title
+                        >
+                      </ion-card-header>
+                      <hr />
+                      <ion-card-content
+                        class="ion-text-justify large-modal-font"
+                      >
+                        <div *ngIf="!useBiometrics">
+                          <h2>
+                            For an easier login process, you can use the
+                            biometric security function of your device to access
+                            LotteryLink.
+                          </h2>
+                          <hr />
+                          <h2>
+                            To set this up, simply enter your LotteryLink
+                            password below & click 'submit'. Next time you
+                            login, click the biometric login button & your
+                            device will complete the process.
+                          </h2>
+                          <hr />
+                          <hr />
+                          <ion-item
+                            class="big-font"
+                            fill="outline"
+                            class="large-font box-border"
+                            lines="none"
+                          >
+                            <ion-input
+                              placeholder="password"
+                              formControlName="biometricsPassword"
+                              [type]="showPassword ? 'text' : 'password'"
+                              maxLength="16"
+                            >
+                            </ion-input>
+                          </ion-item>
+                          <hr />
+                          <ion-item
+                            class="form-error"
+                            *ngIf="submitAttempt 
+                    && !formBiometrics.controls.password.valid"
+                          >
+                            <ion-label class="ion-text-wrap">
+                              required field which must contain at least 1
+                              number, 1 lowercase letter, 1 uppercase letter & 1
+                              special character @ ! ? *
+                            </ion-label>
+                          </ion-item>
+                          <hr />
+                          <hr />
+                          <hr />
+                          <ion-button
+                            expand="block"
+                            (click)="onSetBiometrics()"
+                            fill="solid"
+                            [color]="!formBiometrics.valid? 'tertiary':'primary'"
+                            >submit</ion-button
+                          >
+                        </div>
+                        <div *ngIf="useBiometrics">
+                          <h2>
+                            Click the button below to remove the biometric login
+                            function. You will then be limited to
+                            username/password access.
+                          </h2>
+                          <hr />
+                          <hr />
+                          <ion-button
+                            expand="block"
+                            (click)="onDeleteBiometrics()"
+                            fill="outline"
+                            color="dark"
+                            >delete current biometric access</ion-button
+                          >
+                        </div>
+                        <hr />
+                        <ion-button
+                          expand="block"
+                          (click)="onClosePassword()"
+                          fill="outline"
+                          color="dark"
+                          >close window</ion-button
+                        >
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </form>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+      <hr />
+    </div>
+    <div>
+      <ion-buttons>
+        <ion-button (click)="navigateToDocuments()">
+          <ion-item class="background" color="background">
+            <ion-icon name="document-text-outline" slot="start"></ion-icon>
+            <h3>Documents</h3>
+            <div *ngIf="unreadDocuments">
+              <ion-icon
+                name="alert-circle-outline"
+                slot="end"
+                style="color: green"
+              ></ion-icon>
+            </div>
+          </ion-item>
+        </ion-button>
+      </ion-buttons>
+      <hr />
+    </div>
+    <div *ngIf="providerHasTwitter">
+      <ion-buttons>
+        <ion-button (click)="navigateToTwitter()">
+          <ion-item class="background" color="background">
+            <!-- <ion-icon name="logo-twitter" slot="start"></ion-icon> -->
+            <ion-icon [src]="x" slot="start"></ion-icon>
+            <h3>Our X Feed</h3>
+          </ion-item>
+        </ion-button>
+      </ion-buttons>
+      <hr />
+    </div>
+    <div>
+      <ion-buttons> </ion-buttons>
+      <hr />
+    </div>
+    <ion-buttons>
+      <ion-button (click)="onLogout()">
+        <ion-item class="background" color="background">
+          <ion-icon
+            name="log-out-sharp"
+            slot="start"
+            class="big-buttons"
+          ></ion-icon>
+          <h3>Log Out</h3>
+        </ion-item>
+      </ion-button>
+    </ion-buttons>
+    <hr />
+  </ion-content>
+</ion-menu>
+<ion-header>
+  <ion-toolbar color="medium" class="top-padding">
+    <ion-buttons slot="start">
+      <ion-menu-button size="large">
+        <ion-icon name="menu-outline" size="large"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <!-- <ion-buttons slot="start">
+      <ion-button slot="icon-only" size="large" strong id="modal-trigger1">
+        <ion-icon name="help-outline" size="large"></ion-icon>
+      </ion-button>
+      
+    </ion-buttons> -->
+
+    <ion-title class="ion-text-center" style="font-size: 120%"
+      >Highland Diocese</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" size="large" strong (click)="onLogout()">
+        <ion-icon
+          name="log-out-outline"
+          size="large"
+          class="big-buttons"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="color: var(--ion-color-background)" id="main-content">
+  <ion-content style="background-color: black !important" id="main-content">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div>
+      <ion-img src="{{ promoImage }}"> </ion-img>
+    </div>
+    <ion-card class="test">
+      <ion-grid>
+        <ion-row class="row1">
+          <ion-col size="12">
+
+            <swiper-container>
+  <swiper-slide>Slide 1</swiper-slide>
+  <swiper-slide>Slide 2</swiper-slide>
+  <swiper-slide>Slide 3</swiper-slide>
+</swiper-container>
+
+            <ion-card color="tertiary" style="height: 95%">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  >Total Donations YTD</ion-card-title
+                >
+                <hr />
+                <ion-card-subtitle
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  >{{ playerName }}</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-tertiary-contrast)"
+                >
+                  £{{ balance | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <div *ngIf="smallScreen">
+          <hr />
+          <hr />
+          <hr />
+        </div>
+        <ion-row class="row1">
+          <ion-col size="6">
+            <ion-card color="primary" style="height: 95%; margin-right: 3%">
+              <ion-card-header>
+                <ion-card-subtitle
+                  style="color: var(--ion-color-primary-contrast)"
+                  >Last Donation</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-primary-contrast)"
+                >
+                  £{{ balance | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6">
+            <ion-card color="primary" style="height: 95%; margin-left: 3%">
+              <ion-card-header>
+                <ion-card-subtitle
+                  style="color: var(--ion-color-primary-contrast)"
+                  >Tax Year</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-primary-contrast)"
+                >
+                  {{ taxYear }}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <div *ngIf="smallScreen">
+          <hr />
+        </div>
+        <ion-row class="row1">
+          <ion-col size="6">
+            <ion-card color="primary" style="height: 95%; margin-right: 3%">
+              <ion-card-header>
+                <ion-card-subtitle
+                  style="color: var(--ion-color-primary-contrast)"
+                  >GiftAid Claimed</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-primary-contrast)"
+                >
+                  £{{ balance | number : '1.2-2'}}
+                </p>
+              </ion-card-content></ion-card
+            >
+          </ion-col>
+          <ion-col size="6">
+            <ion-card color="primary" style="height: 95%; margin-left: 3%">
+              <ion-card-header>
+                <ion-card-subtitle
+                  style="color: var(--ion-color-primary-contrast)"
+                  >GiftAid Unclaimed</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-primary-contrast)"
+                >
+                  £{{ balance | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+    <!-- <div *ngIf="!largeScreen">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="row1">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge1 stuff">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-primary-contrast)"
+                  class="bold"
+                  >Balance</ion-card-title
+                >
+                <hr />
+                <ion-card-subtitle
+                  *ngIf="lowBalanceAlert"
+                  style="color: var(--ion-color-danger)"
+                  >Low Balance</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-primary-contrast)"
+                >
+                  £{{ balance | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge2 stuff">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-secondary-contrast)"
+                  class="bold"
+                  >Total Winnings</ion-card-title
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  *ngIf="!truncateTotalWinnings"
+                  class="largeAmount"
+                  style="color: var(--ion-color-secondary-contrast)"
+                >
+                  £{{ totalWinnings | number : '1.2-2'}}
+                </p>
+                <p
+                  *ngIf="truncateTotalWinnings"
+                  class="largeAmount"
+                  style="color: var(--ion-color-secondary-contrast)"
+                >
+                  £{{ totalWinnings }}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row class="row1">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge3 stuff">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  class="bold"
+                  >Last Payment</ion-card-title
+                >
+                <hr *ngIf="!paymentsAvailable" />
+                <hr *ngIf="!paymentsAvailable" />
+                <ion-card-subtitle
+                  *ngIf="!paymentsAvailable"
+                  style="color: var(--ion-color-tertiary-tint)"
+                  >currently unavailable</ion-card-subtitle
+                >
+                <ion-card-subtitle
+                  *ngIf="paymentsAvailable"
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  >{{ lastPaymentDateShort }}</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content
+                *ngIf="paymentsAvailable"
+                class="fixed-content-child"
+              >
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-tertiary-contrast)"
+                >
+                  £{{ lastPayment | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge4 stuff">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-medium-contrast)"
+                  class="bold"
+                  >Next Payment</ion-card-title
+                >
+                <hr *ngIf="!paymentsAvailable" />
+                <hr *ngIf="!paymentsAvailable" />
+                <ion-card-subtitle
+                  *ngIf="!paymentsAvailable"
+                  style="color: var(--ion-color-medium-tint)"
+                  >currently unavailable</ion-card-subtitle
+                >
+                <ion-card-subtitle
+                  *ngIf="paymentsAvailable"
+                  style="color: var(--ion-color-medium-contrast)"
+                  >{{ nextPaymentDateShort }}</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content
+                *ngIf="paymentsAvailable"
+                class="fixed-content-child"
+              >
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-medium-contrast)"
+                >
+                  £{{ nextPayment | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row class="row2">
+          <ion-col>
+            <ion-card class="tertiary margin badge8">
+              <ion-card-content>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="3">
+                      <ion-card class="tertiary things badge0 countdown">
+                        <ion-card-content>
+                          <h2 style="color: var(--ion-color-drawback-contrast)">
+                            Next Draw
+                          </h2>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card class="circle this badge5 things">
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row>
+                              <ion-card-title class="badge-text5 this"
+                                >{{ daysToDday }}</ion-card-title
+                              >
+                            </ion-row>
+                            <ion-row>
+                              <h4>days</h4>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card class="circle this badge6 things">
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row>
+                              <ion-card-title class="badge-text6"
+                                >{{ hoursToDday }}</ion-card-title
+                              >
+                            </ion-row>
+                            <ion-row>
+                              <h4>hours</h4>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card class="circle this badge7 things">
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row>
+                              <ion-card-title class="badge-text7"
+                                >{{ minutesToDday }}</ion-card-title
+                              >
+                            </ion-row>
+                            <ion-row>
+                              <h4>mins</h4>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <!-- <ion-row>
+        <ion-col>
+          <ion-card class="tertiary row4" style="border-radius: 3%">
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="3">
+                    <ion-card class="cardBadges tertiary things badge0">
+                      <h3>Next Draw Countdown</h3>
+                    </ion-card>
+                  </ion-col>
+                  <ion-col size="3">
+                    <ion-card class="cardBadges badge5 things">
+                      <ion-grid>
+                        <ion-row>
+                        <ion-card-title
+                        class="badge-text1"
+                        style="color: var(--ion-color-primary-contrast)"
+                        >{{ daysToDday }}</ion-card-title
+                        >
+                      </ion-row>
+                      <ion-row>
+                        <h4>days</h4>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-card>
+                </ion-col>
+                <ion-col size="3">
+                  <ion-card class="cardBadges badge6 things">
+                    <ion-grid>
+                      <ion-row>
+                        <ion-card-title
+                        class="badge-text2"
+                        style="color: var(--ion-color-primary-contrast)"
+                        >{{ hoursToDday }}</ion-card-title
+                        >
+                      </ion-row>
+                      <ion-row>
+                        <h4>hours</h4>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-card>
+                </ion-col>
+                <ion-col size="3">
+                  <ion-card class="cardBadges badge7 things">
+                    <ion-grid>
+                      <ion-row>
+                        <ion-card-title
+                        class="badge-text1"
+                        style="color: var(--ion-color-primary-contrast)"
+                        >{{ minutesToDday }}</ion-card-title
+                        >
+                      </ion-row>
+                      <ion-row>
+                        <h4>mins</h4>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row> -->
+    <!-- <ion-row>
+      <ion-col sizeLg="10" offsetLg="1" sizeMd="8" offsetMd="2">
+        <ion-card class="tertiary" style="border-radius: 5%">
+          <ion-grid>
+            <ion-row class="ion-margin-top row2">
+              <ion-col size="4">
+                <ion-card class="tertiary">
+                  <ion-card-content class="topPadding">
+                    <h2>Next Draw</h2>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <ion-card class="cardBadges badge5">
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-card-title
+                        class="badge-text1"
+                        style="color: var(--ion-color-primary-contrast)"
+                        style="font-size: 200%"
+                        style="font-weight: bolder"
+                        >{{ daysToDday }}</ion-card-title
+                        >
+                      </ion-row>
+                      <ion-row>
+                        <h4>days</h4>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <ion-card class="cardBadges badge6">
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-card-title
+                        class="badge-text2"
+                        style="color: var(--ion-color-primary-contrast)"
+                        style="font-size: 200%"
+                        style="font-weight: bolder"
+                        >{{ hoursToDday }}</ion-card-title
+                        >
+                      </ion-row>
+                      <ion-row>
+                        <h4>hours</h4>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <ion-card class="cardBadges badge7">
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-card-title
+                          class="badge-text1"
+                          style="color: var(--ion-color-primary-contrast)"
+                          style="font-size: 200%"
+                          style="font-weight: bolder"
+                          >{{ minutesToDday }}</ion-card-title
+                          >
+                        </ion-row>
+                        <ion-row>
+                          <h4>mins</h4>
+                        </ion-row>
+                      </ion-grid>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row> -->
+    <!-- <ion-row class="row4">
+      <ion-col sizeLg="10" offsetLg="1" sizeMd="8" offsetMd="2">
+        <ion-card class="border-test line-fix">
+          <ion-grid>
+            <ion-row class="ion-margin-top row2">
+              <ion-col size="4">
+                <ion-card class="darkContent">
+                  <ion-card-content class="topPadding"> </ion-card-content>
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <p class="cardLabels darkContent">days</p>
+              </ion-col>
+              <ion-col>
+                <p class="cardLabels darkContent">hours</p>
+              </ion-col>
+              <ion-col>
+                <p class="cardLabels darkContent">minutes</p>
+                >
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+        <ion-row class="row3">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="margin ion-no-padding">
+              <ion-card-content class="ion-no-padding">
+                <ion-img
+                  (click)="onClickImageLink()"
+                  src="{{ promoImage }}"
+                ></ion-img>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="largeScreen">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="rowx">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge1">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-primary-contrast)"
+                  class="bold"
+                  >Balance</ion-card-title
+                >
+                <hr />
+                <ion-card-subtitle
+                  *ngIf="lowBalanceAlert"
+                  style="color: var(--ion-color-danger)"
+                  >Alert: Low Balance</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-primary-contrast)"
+                >
+                  £{{ balance | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row class="rowx">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge2">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-secondary-contrast)"
+                  class="bold"
+                  >Total Winnings</ion-card-title
+                >
+                <hr />
+              </ion-card-header>
+              <ion-card-content class="fixed-content-child">
+                <p
+                  *ngIf="!truncateTotalWinnings"
+                  class="largeAmount"
+                  style="color: var(--ion-color-secondary-contrast)"
+                >
+                  £{{ totalWinnings | number : '1.2-2'}}
+                </p>
+                <p
+                  *ngIf="truncateTotalWinnings"
+                  class="largeAmount"
+                  style="color: var(--ion-color-secondary-contrast)"
+                >
+                  £{{ totalWinnings }}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row class="rowx">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge3">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  class="bold"
+                  >Last Payment</ion-card-title
+                >
+                <hr *ngIf="!paymentsAvailable" />
+                <hr *ngIf="!paymentsAvailable" />
+                <ion-card-subtitle
+                  *ngIf="!paymentsAvailable"
+                  style="color: var(--ion-color-tertiary-tint)"
+                  >currently unavailable</ion-card-subtitle
+                >
+                <ion-card-subtitle
+                  *ngIf="paymentsAvailable"
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  >{{ lastPaymentDateShort }}</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content
+                *ngIf="paymentsAvailable"
+                class="fixed-content-child"
+              >
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-tertiary-contrast)"
+                >
+                  £{{ lastPayment | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row class="rowx">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="fixed-content-parent badge4">
+              <ion-card-header>
+                <ion-card-title
+                  style="color: var(--ion-color-medium-contrast)"
+                  class="bold"
+                  >Next Payment</ion-card-title
+                >
+                <hr *ngIf="!paymentsAvailable" />
+                <hr *ngIf="!paymentsAvailable" />
+                <ion-card-subtitle
+                  *ngIf="!paymentsAvailable"
+                  style="color: var(--ion-color-medium-tint)"
+                  >currently unavailable</ion-card-subtitle
+                >
+                <ion-card-subtitle
+                  *ngIf="paymentsAvailable"
+                  style="color: var(--ion-color-medium-contrast)"
+                  >{{ nextPaymentDateShort }}</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content
+                *ngIf="paymentsAvailable"
+                class="fixed-content-child"
+              >
+                <p
+                  class="largeAmount"
+                  style="color: var(--ion-color-medium-contrast)"
+                >
+                  £{{ nextPayment | number : '1.2-2'}}
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row class="row2">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="tertiary margin badge8">
+              <ion-card-content>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="3">
+                      <ion-card class="tertiary badge0 countdown this things">
+                        <ion-card-content>
+                          <h2 style="color: var(--ion-color-drawback-contrast); vertical-align: middle;
+                        ">
+                            Next Draw
+                          </h2>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card class="circle this badge5 things">
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row>
+                              <ion-card-title class="badge-text5 this"
+                                >{{ daysToDday }}</ion-card-title
+                              >
+                            </ion-row>
+                            <ion-row>
+                              <h4>days</h4>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card class="circle this badge6 things">
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row>
+                              <ion-card-title class="badge-text6"
+                                >{{ hoursToDday }}</ion-card-title
+                              >
+                            </ion-row>
+                            <ion-row>
+                              <h4>hours</h4>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card class="circle this badge7 things">
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row>
+                              <ion-card-title class="badge-text7"
+                                >{{ minutesToDday }}</ion-card-title
+                              >
+                            </ion-row>
+                            <ion-row>
+                              <h4>mins</h4>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row> 
+        <ion-row class="row3">
+          <ion-col sizeMd="8" offsetMd="2">
+            <ion-card class="margin ion-no-padding">
+              <ion-card-content class="ion-no-padding">
+                <ion-img
+                  (click)="onClickImageLink()"
+                  src="{{ promoImage }}"
+                ></ion-img>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-content> -->
+  </ion-content>
+</ion-content>

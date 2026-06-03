@@ -1,0 +1,17 @@
+.button-padding {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.box-border {
+  --border-width: 1px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.email-item {
+  --inner-padding-end: 0% !important;
+  margin-left: 0%;
+  margin-right: 0%;
+}

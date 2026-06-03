@@ -1,0 +1,7 @@
+{
+  "name": "GWMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

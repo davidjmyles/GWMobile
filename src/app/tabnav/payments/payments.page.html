@@ -85,14 +85,95 @@
                 class="card-detail box-border"
                 fill="outline"
               >
-                <ion-icon name="cash" slot="start"></ion-icon>
                 <h2 style="color: grey">Donations YTD</h2>
-                <h2 style="font-weight: bold; font-size: large" slot="end">
+                <h1 style="font-weight: bold; font-size: large; color: var(--ion-color-medium)" slot="end">
                   £{{ balance | number : '1.2-2' }}
-                </h2>
+                </h1>
               </ion-item>
               <hr />
-              <ion-item
+              <!-- <ion-item
+              lines="none"
+                class="card-detail box-border"
+                expand="block"
+                fill="solid"
+                color="medium"
+                id="modal-filter"
+                >
+                <ion-label align="center">Filter Donations</ion-label>
+              </ion-item> -->
+            
+                    <ion-accordion-group>
+                      <ion-accordion >
+                        <ion-item slot="header" class="filter-accordion">
+                          <ion-label>Filter Donations</ion-label>
+                        </ion-item>
+                          <div slot="content">
+                            <!-- <ion-label align="center">Parish</ion-label> -->
+                            <ion-item lines="none" class="ion-no-padding">
+                                              <ion-select
+                                              labelPlacement="fixed" 
+                                              style="margin-left: 10%;"
+                                              label="Parish"
+                                              interface="action-sheet"
+                                              class="select"
+                                              (ionChange)="updateParish($event)"
+                                            >
+                                              <!-- <ion-select-option [value]="all">All</ion-select-option> -->
+                                              <ion-select-option 
+                                                value="parish"
+                                                *ngFor="let parish of parishList"
+                                                [value]="parish"
+                                              >
+                                                {{ parish }}
+                                              </ion-select-option>
+                                            </ion-select>
+                            </ion-item>
+                            <ion-item lines="none" class="ion-no-padding">
+                                              <ion-select
+                                              labelPlacement="fixed" 
+                                              style="margin-left: 10%;"
+                                              label="Fund"
+                                              interface="action-sheet"
+                                              class="select"
+                                              (ionChange)="updateParish($event)"
+                                            >
+                                              <!-- <ion-select-option [value]="all">All</ion-select-option> -->
+                                              <ion-select-option 
+                                                value="parish"
+                                                *ngFor="let parish of parishList"
+                                                [value]="parish"
+                                              >
+                                                {{ parish }}
+                                              </ion-select-option>
+                                            </ion-select>
+                            </ion-item>
+                            <ion-item lines="none" class="ion-no-padding">
+                                              <ion-select
+                                              labelPlacement="fixed" 
+                                              style="margin-left: 10%;"
+                                              label="Payment Method"
+                                              interface="action-sheet"
+                                              class="select"
+                                              (ionChange)="updateParish($event)"
+                                            >
+                                              <!-- <ion-select-option [value]="all">All</ion-select-option> -->
+                                              <ion-select-option 
+                                                value="parish"
+                                                *ngFor="let parish of parishList"
+                                                [value]="parish"
+                                              >
+                                                {{ parish }}
+                                              </ion-select-option>
+                                            </ion-select>
+                            </ion-item>
+                              <!-- <ion-label align="center">Clear Filters</ion-label>
+                            </ion-item> -->
+
+                          </div>
+                      </ion-accordion>
+                    </ion-accordion-group>
+
+              <!-- <ion-item
                 class="big-font"
                 fill="outline"
                 class="large-font box-border"
@@ -104,7 +185,7 @@
                   class="select"
                   (ionChange)="updateParish($event)"
                 >
-                  <!-- <ion-select-option [value]="all">All</ion-select-option> -->
+                   <ion-select-option [value]="all">All</ion-select-option>
                   <ion-select-option
                     value="parish"
                     *ngFor="let parish of parishList"
@@ -113,27 +194,29 @@
                     {{ parish }}
                   </ion-select-option>
                 </ion-select>
-              </ion-item>
+              </ion-item> -->
             </ion-card-content>
           </ion-card-header>
         </ion-card>
         <ion-card *ngIf="paymentsAvailable">
           <div *ngIf="showAllPayments">
-            <div *ngFor="let payment of paymentsArray">
-              <ion-card
-                class="fixed-content-parent item-no-padding border"
-                color="primary"
-              >
+            <ion-accordion-group expand="inset" (ionChange)="accordionGroupChange($event)">
+            <div *ngFor="let payment of paymentsArray; let i = index">
+
+              <ion-accordion [value]="payment.paymentId" [ngClass]="lastElement === i ? 'without-padding' : 'with-padding'" (click)="changeAccordionStyle(i)">
+                <ion-item slot="header" [ngClass]="clickedIndex ===  i ? 'expanded-element' : 'collapsed-element'">
+                    <ion-label>{{payment.date | date: 'dd.MM.yy'}}</ion-label>
+                    <ion-label slot="end">£{{ payment.amount | number : '1.2-2'}}</ion-label>  
+                </ion-item>
+             <div slot="content">
                 <ion-card-header>
                   <ion-card-title style="font-size: 120%">
                     {{payment.date | date: 'dd MMMM yyyy'}}
                   </ion-card-title>
-                  <hr />
                   <ion-row>
                     <ion-card-subtitle>
                       {{ payment.parish }}
                     </ion-card-subtitle>
-                    <!-- <ion-card-subtitle> &nbsp;///&nbsp; </ion-card-subtitle> -->
                     <ion-card-subtitle
                       style="color: var(--ion-color-secondary)"
                     >
@@ -141,8 +224,9 @@
                     </ion-card-subtitle>
                   </ion-row>
                 </ion-card-header>
-                <ion-card-content>
-                  <ion-item lines="none" class="ion-no-padding" color="primary">
+                <ion-card-content
+                >
+                  <ion-item lines="none" class="ion-no-padding">
                     <p slot="start" class="prize-position">
                       {{ payment.method }}
                     </p>
@@ -151,55 +235,13 @@
                     </p>
                   </ion-item>
                 </ion-card-content>
-              </ion-card>
-            </div>
+    </div>
+  </ion-accordion>
+</div>
+</ion-accordion-group>
+
           </div>
-          <div *ngIf="!showAllPayments">
-            <div *ngFor="let payment of filteredArray">
-              <ion-card
-                class="fixed-content-parent item-no-padding border"
-                color="primary"
-              >
-                <ion-card-header>
-                  <ion-card-title style="font-size: 120%">
-                    {{payment.date | date: 'dd MMMM yyyy'}}
-                  </ion-card-title>
-                  <hr />
-                  <ion-row>
-                    <ion-card-subtitle>
-                      {{ payment.parish }}
-                    </ion-card-subtitle>
-                    <!-- <ion-card-subtitle> &nbsp;///&nbsp; </ion-card-subtitle> -->
-                    <ion-card-subtitle
-                      style="color: var(--ion-color-secondary)"
-                    >
-                      &nbsp;&nbsp;{{ payment.fund }}
-                    </ion-card-subtitle>
-                  </ion-row>
-                </ion-card-header>
-                <ion-card-content>
-                  <ion-item lines="none" class="ion-no-padding" color="primary">
-                    <p slot="start" class="prize-position">
-                      {{ payment.method }}
-                    </p>
-                    <p slot="end" class="amount-note">
-                      £{{ payment.amount | number : '1.2-2'}}
-                    </p>
-                  </ion-item>
-                </ion-card-content>
-              </ion-card>
-            </div>
-          </div>
-          <!-- <ion-list>
-            <ion-item *ngFor="let payment of paymentsArray">
-              <ion-label class="large-font">
-                {{ payment.date | date: 'dd MMMM yyyy'}}
-              </ion-label>
-              <ion-note slot="end" class="amount-note large-font"
-                >£{{ payment.amount | number : '1.2-2'}}</ion-note
-              >
-            </ion-item>
-          </ion-list> -->
+
         </ion-card>
         <ion-card *ngIf="!paymentsAvailable">
           <ion-item>

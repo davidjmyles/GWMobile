@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AlertController,
   ModalController,
@@ -28,6 +28,7 @@ import { set } from 'lodash';
 })
 /* defines & controls functionality on payments page */
 export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
+  @ViewChild('accordionGroup', { static: true })
   private dataSub: Subscription;
   currentData: Data;
   balance;
@@ -35,6 +36,7 @@ export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
   decimalsForBalance;
   paymentsArray: Payment[] = [
     {
+      paymentId: 1,
       amount: '10',
       date: new Date(2025, 1, 28),
       method: 'Cash',
@@ -42,6 +44,7 @@ export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
       fund: 'Easter Fund',
     },
     {
+      paymentId: 2,
       amount: '25',
       date: new Date(2024, 12, 28),
       method: 'Card',
@@ -49,6 +52,7 @@ export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
       fund: 'Random Fund',
     },
     {
+      paymentId: 3,
       amount: '15',
       date: new Date(2024, 11, 28),
       method: 'Cash',
@@ -76,6 +80,14 @@ export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
   parishList: string[] = [];
   filteredArray: Payment[];
   showAllPayments = true;
+  accordionCollapsed = true;
+  activeAccordion: string | undefined;
+  accordionGroup: any;
+  showAccordionHeader = true;
+  clickedIndex: number;
+  selectedValue: any;
+  resetAccordion: boolean;
+  lastElement: number;
 
   constructor(
     private modalCtrl: ModalController,
@@ -114,6 +126,33 @@ export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
       //}
     });
   }
+
+  accordionGroupChange = (event: CustomEvent) => {
+   this.selectedValue = event.detail.value;
+   console.log('Selected Value: ', this.selectedValue);
+    if (this.selectedValue === undefined) {
+      this.resetAccordion = true;
+    } else {
+      this.resetAccordion = false;
+    }
+  };
+
+  changeAccordionStyle(index: number) {
+    let blankIndex = this.paymentsArray.length + 1;
+    if (this.resetAccordion === true) {
+      this.clickedIndex = blankIndex;
+    } else {
+      this.clickedIndex = index;
+    }
+  }
+
+  adjustPadding() {
+    this.lastElement = this.paymentsArray.length - 1;
+  }
+
+  trackByPaymentId(index: number, payment: Payment): number {
+      return payment.paymentId;
+    }
 
   /* subscribes to dataService/providerService & sets local variables to subscription values */
   ngOnInit() {
@@ -155,7 +194,7 @@ export class PaymentsPage implements OnInit, OnDestroy, ViewWillEnter {
     parishListUnique.forEach((res) => {
       this.parishList.push(res);
     });
-
+    this.adjustPadding();
     console.log(this.parishList);
   }
 

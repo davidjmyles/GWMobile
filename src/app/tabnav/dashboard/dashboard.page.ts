@@ -1,7 +1,6 @@
 import {
   ChangeDetectorRef,
   Component,
-  NgModule,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -42,11 +41,6 @@ import { VersionService } from 'src/app/version.service';
 import { Documents } from '../documents/documents.model';
 import { App } from '@capacitor/app';
 import { Promotion } from 'src/app/promotion.model';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-@NgModule({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-})
 
 @Component({
   selector: 'app-dashboard',

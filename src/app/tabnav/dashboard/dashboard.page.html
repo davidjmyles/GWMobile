@@ -717,45 +717,121 @@
       <ion-grid>
         <ion-row class="row1">
           <ion-col size="12">
-
-            <swiper-container>
-  <swiper-slide>Slide 1</swiper-slide>
-  <swiper-slide>Slide 2</swiper-slide>
-  <swiper-slide>Slide 3</swiper-slide>
-</swiper-container>
-
-            <ion-card color="tertiary" style="height: 95%">
+            
+            <!-- <ion-card color="tertiary" style="height: 95%">
               <ion-card-header>
                 <ion-card-title
-                  style="color: var(--ion-color-tertiary-contrast)"
-                  >Total Donations YTD</ion-card-title
+                style="color: var(--ion-color-tertiary-contrast)"
+                >Total Donations YTD</ion-card-title
                 >
                 <hr />
                 <ion-card-subtitle
-                  style="color: var(--ion-color-tertiary-contrast)"
-                  >{{ playerName }}</ion-card-subtitle
+                style="color: var(--ion-color-tertiary-contrast)"
+                >{{ playerName }}</ion-card-subtitle
                 >
               </ion-card-header>
               <ion-card-content class="fixed-content-child">
                 <p
+                class="largeAmount"
+                style="color: var(--ion-color-tertiary-contrast)"
+                >
+                £{{ balance | number : '1.2-2'}}
+              </p>
+            </ion-card-content>
+          </ion-card> -->
+          <div *ngIf="smallScreen">
+            <hr />
+            <hr />
+            <hr />
+          </div>
+          <div class="swiper"> 
+            <div class="swiper-wrapper"> 
+              <swiper-container [pagination]="true" [loop]="true">
+                <swiper-slide>
+                  <ion-card color="tertiary" style="height: 95%">
+
+                    <hr />
+                    <ion-card-header>
+                      <ion-card-title
+                      style="color: var(--ion-color-tertiary-contrast)"
+                      >Total Donations 1</ion-card-title
+                      >
+
+                      <hr />
+                      <ion-card-subtitle
+                      style="color: var(--ion-color-tertiary-contrast)"
+                      >{{ playerName }}</ion-card-subtitle
+                      >
+                    </ion-card-header>
+                    <hr />
+                      <hr />
+                    <ion-card-content class="fixed-content-child">
+                      <p
+                      class="largeAmount"
+                      style="color: var(--ion-color-tertiary-contrast)"
+                      >
+                      £{{ balance | number : '1.2-2'}}
+                    </p>
+                  </ion-card-content>
+                  <hr />
+
+                </ion-card>
+              </swiper-slide>
+              <swiper-slide>
+                <ion-card color="tertiary" style="height: 95%">
+                  <ion-card-header>
+                    <ion-card-title
+                    style="color: var(--ion-color-tertiary-contrast)"
+                    >Total Donations 2</ion-card-title
+                    >
+                    <hr />
+                    <ion-card-subtitle
+                    style="color: var(--ion-color-tertiary-contrast)"
+                    >{{ playerName }}</ion-card-subtitle
+                    >
+                  </ion-card-header>
+                  <ion-card-content class="fixed-content-child">
+                    <p
+                    class="largeAmount"
+                    style="color: var(--ion-color-tertiary-contrast)"
+                    >
+                    £{{ balance | number : '1.2-2'}}
+                  </p>
+                </ion-card-content>
+              </ion-card>
+            </swiper-slide>
+            <swiper-slide>
+              <ion-card color="tertiary" style="height: 95%">
+                <ion-card-header>
+                  <ion-card-title
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  >Total Donations 3</ion-card-title
+                  >
+                  <hr />
+                  <ion-card-subtitle
+                  style="color: var(--ion-color-tertiary-contrast)"
+                  >{{ playerName }}</ion-card-subtitle
+                  >
+                </ion-card-header>
+                <ion-card-content class="fixed-content-child">
+                  <p
                   class="largeAmount"
                   style="color: var(--ion-color-tertiary-contrast)"
-                >
+                  >
                   £{{ balance | number : '1.2-2'}}
                 </p>
               </ion-card-content>
             </ion-card>
-          </ion-col>
-        </ion-row>
-        <div *ngIf="smallScreen">
-          <hr />
-          <hr />
-          <hr />
-        </div>
-        <ion-row class="row1">
-          <ion-col size="6">
-            <ion-card color="primary" style="height: 95%; margin-right: 3%">
-              <ion-card-header>
+          </swiper-slide>
+        </swiper-container>
+      </div>
+    </div>
+  </ion-col>
+</ion-row>
+      <ion-row class="row1">
+        <ion-col size="6">
+          <ion-card color="primary" style="height: 95%; margin-right: 3%">
+            <ion-card-header>
                 <ion-card-subtitle
                   style="color: var(--ion-color-primary-contrast)"
                   >Last Donation</ion-card-subtitle

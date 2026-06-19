@@ -3,6 +3,33 @@ ion-refresher {
   background-color: var(--ion-color-tertiary);
 }
 
+.filter-accordion {
+  --background: var(--ion-color-medium) !important;
+  --color: var(--ion-color-medium-contrast) !important;
+  --border-radius: 10px !important;
+}
+
+
+
+.collapsed-element{
+  --background: rgb(197, 196, 196) !important;
+  --color: var(--ion-color-dark) !important;
+}
+
+.expanded-element {
+  --background: rgb(197, 196, 196) !important;
+  --color: rgb(197, 196, 196) !important;
+}
+
+.without-padding {
+  padding-bottom: 0%;
+}
+
+.with-padding {
+  padding-bottom: 5%;
+}
+
+
 .border {
   border: 4px solid var(--ion-color-border);
   //background-color: var(--ion-color-drawone);

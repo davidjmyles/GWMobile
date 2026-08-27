@@ -30,6 +30,7 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { MaintenanceService } from 'src/app/maintenance.service';
 import { BiometricsService } from 'src/app/biometrics.service';
 import { NativeBiometric } from '@capgo/capacitor-native-biometric';
+import { VersionService } from 'src/app/version.service';
 
 @Component({
   selector: 'app-signup',
@@ -90,6 +91,8 @@ export class SignupPage implements OnInit, OnDestroy {
   notificationsSub: Subscription;
   deviceNotificationsPermission;
   private maintenanceSub: Subscription;
+  versionSub: Subscription;
+  appVersion;
   maintenanceStartDate;
   maintenanceEndDate;
   showMessageDaysBefore;
@@ -117,7 +120,8 @@ export class SignupPage implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private changeDetectorRef: ChangeDetectorRef,
     private maintenanceService: MaintenanceService,
-    private biometricsService: BiometricsService
+    private biometricsService: BiometricsService,
+    private versionService: VersionService
   ) {}
 
   /*
@@ -217,6 +221,9 @@ export class SignupPage implements OnInit, OnDestroy {
         this.lockAccess = res.lockAccess;
       }
     );
+     this.versionSub = this.versionService.appVersion.subscribe((appVersion) => {
+      this.appVersion = appVersion;
+    });
   }
 
   /* refreshes notifications permission status */
@@ -336,6 +343,7 @@ export class SignupPage implements OnInit, OnDestroy {
               } 
                }, 
                error: (errRes) => {
+                console.log(errRes);
                  this.formSignup.get('gadNumber')!.reset();
               this.gadIsVerified = false;
               this.highlightGadInput = true;
@@ -343,6 +351,9 @@ export class SignupPage implements OnInit, OnDestroy {
               const error = errRes.error;
               if (error.status == 404) {
                 this.showAlertInvalidGad();
+              }
+              if (error.status == 400) {
+                this.showAlertNonStandardGad();
               }
                }
         });
@@ -408,6 +419,18 @@ export class SignupPage implements OnInit, OnDestroy {
         cssClass: 'custom-alert',
         message:
           `We don't recognise this gift aid declaration number. please ensure that you have entered it correctly.`,
+        buttons: [{ text: 'ok', cssClass: 'alert-button-ok' }],
+      })
+      .then((alertEl) => alertEl.present());
+  }
+
+  private showAlertNonStandardGad() {
+    this.alertCtrl
+      .create({
+        header: 'verification failed',
+        cssClass: 'custom-alert',
+        message:
+          `The Gift Aid Declaration number you have entered is non-standard and cannot be used for registration. Please try again with a standard number.`,
         buttons: [{ text: 'ok', cssClass: 'alert-button-ok' }],
       })
       .then((alertEl) => alertEl.present());
@@ -649,6 +672,9 @@ export class SignupPage implements OnInit, OnDestroy {
       username: this.formSignup.value.username,
       password: this.formSignup.value.password,
       confirmPassword: this.formSignup.value.confirmPassword,
+      appVersion: this.appVersion,
+      deviceNotifications: this.deviceNotificationsPermission,
+      platform: Capacitor.getPlatform(),
       personalDetails: {
         title: this.formSignup.value.title,
         forename: upperFirstName,

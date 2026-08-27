@@ -6,6 +6,7 @@ import { Payment } from './payments/payment.model';
 import { ProviderService } from '../provider.service';
 import { Provider } from '../provider.model';
 import { BalanceService } from '../balance.service';
+import { PaymentsService } from './payments/payments.service';
 
 @Component({
   selector: 'app-tabnav',
@@ -31,7 +32,8 @@ export class TabnavPage implements OnInit {
   constructor(
     private dataService: DataService,
     private providerService: ProviderService,
-    private balanceService: BalanceService
+    private balanceService: BalanceService,
+    private paymentsService: PaymentsService
   ) {}
 
   ngOnInit() {
@@ -65,4 +67,5 @@ export class TabnavPage implements OnInit {
     //   this.newWinningTicket = false;
     // }
   }
+
 }

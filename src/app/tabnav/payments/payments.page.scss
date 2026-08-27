@@ -9,7 +9,85 @@ ion-refresher {
   --border-radius: 10px !important;
 }
 
+.clear-filter-accordion {
+  //--background: rgb(197, 196, 196) !important;
+  //--color: var(--ion-color-dark) !important;
+  --border-color: var(--ion-color-medium) !important;
+  --border-width: 1px !important;
+  --border-radius: 10px !important;
+}
 
+.select {
+  margin-left: 0px !important;
+}
+
+.parish-select {
+  --background: lightgray !important;
+}
+
+.add-button {
+  --background: var(--ion-color-medium) !important;
+  --color: var(--ion-color-light) !important;
+  --border-radius: 10px !important;
+  --border-width: 2px !important;
+  --border-color: var(--ion-color-medium-tint) !important;
+}
+
+.scrollable-card {
+  //display: flex;
+  //flex-direction: column;
+  overflow: scroll;
+  max-height: 60vh; 
+}
+
+.card-scroll-container {
+  overflow-y: auto;
+  flex: 1;
+}
+
+// .invalid {
+//   --full-highlight-height: calc(
+//     var(--highlight-height) * var(--show-full-highlight)
+//   );
+//   --inset-highlight-height: calc(
+//     var(--highlight-height) * var(--show-inset-highlight)
+//   );
+//   --border-color: var(--ion-item-border-color, var(--ion-border-color, red));
+// }
+
+// .invalid {
+//   --border-color: var(--ion-color-primary) !important;
+//   --border-width:  !important;
+// }
+
+.box-border {
+  --border-width: 2px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.box-border-select {
+  --border-width: 1px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.box-border.ion-invalid {
+  --border-color: var(--ion-color-primary);
+  --border-width: 5px !important;
+}
+
+
+ion-select.full-width-select {
+  max-width: 100%;
+  width: 100%;
+}
+
+ion-select.full-width-select::part(container) {
+  width: 100%;
+}
 
 .collapsed-element{
   --background: rgb(197, 196, 196) !important;

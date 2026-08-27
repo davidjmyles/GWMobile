@@ -1,0 +1,150 @@
+ion-input[type="text"]:disabled {
+  background: var(--ion-color-dark) !important;
+}
+
+.border {
+  border: 4px solid var(--ion-color-border);
+  //background-color: var(--ion-color-drawone);
+}
+
+.test::first-letter {
+  text-transform: uppercase;
+}
+
+.box-border {
+  --border-width: 1px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.card-detail {
+  padding-left: 0% !important;
+}
+
+ion-select {
+  --placeholder-opacity: 1 !important;
+  color: black;
+}
+
+.full-text {
+  min-width: 80% !important;
+  max-width: 80% !important;
+}
+
+.small-item {
+  max-width: 40%;
+  margin-right: 0%;
+}
+
+.action-sheet-cancel {
+  --color: red;
+}
+
+.save-button {
+  background-color: var(--ion-color-primary);
+}
+
+.this-ion-card {
+  margin: 0px;
+  border-radius: 0px;
+  height: 100%;
+  box-shadow: none;
+}
+
+.this-ion-card-title {
+  font-weight: bold;
+  font-size: 180%;
+}
+
+.form-error {
+  font-size: 70%;
+  color: red;
+}
+
+.invalid {
+  --full-highlight-height: calc(
+    var(--highlight-height) * var(--show-full-highlight)
+  );
+  --inset-highlight-height: calc(
+    var(--highlight-height) * var(--show-inset-highlight)
+  );
+  --border-color: var(--ion-item-border-color, var(--ion-border-color, red));
+}
+
+.small-email {
+  font-size: 90% !important;
+}
+
+.wider-input {
+  margin-right: -5%;
+}
+
+.align-eye-icon {
+  //display: flex !important;
+  justify-content: center !important;
+  align-items: baseline !important;
+  height: 100%;
+}
+
+@media (min-width: 1000px) {
+  ion-toolbar {
+    min-height: 5vh;
+    font-size: 200%;
+  }
+
+  ion-item {
+    padding-top: 2%;
+  }
+
+  .button {
+    min-height: 50px;
+    font-size: 150%;
+  }
+
+  .button-padding {
+    padding-top: 3%;
+  }
+
+  .medium-font {
+    font-size: 120%;
+  }
+
+  .big-font {
+    font-size: 200%;
+  }
+
+  .fixme {
+    -webkit-flex: 0 0 200px;
+    -ms-flex: 0 0 200px;
+    flex: 0 0 200px !important;
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+  }
+
+  .large-modal {
+    --height: 70%;
+    --width: 70%;
+  }
+
+  .large-action-sheet {
+    --max-width: 120% !important;
+    max-height: 120% !important;
+  }
+
+  .large-modal-font {
+    font-size: 200% !important;
+  }
+
+  .large-modal-button {
+    height: 60px;
+    font-size: 35px !important;
+  }
+
+  :root {
+    .action-sheet-button {
+      font-size: 200% !important;
+    }
+  }
+}

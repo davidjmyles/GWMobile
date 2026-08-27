@@ -107,6 +107,9 @@ export class UserService implements OnDestroy {
     username: string;
     password: string;
     confirmPassword: string;
+    appVersion: number;
+    deviceNotifications: boolean;
+    platform: string;
     personalDetails: { title: string; surname: string; forename: string };
     addressDetails: {
       door: string;

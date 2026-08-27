@@ -16,33 +16,15 @@
           <ion-card>
             <ion-card-content>
               <h2 class="ion-text-justify">
-                We have been unable to match the email address you submitted
-                with a valid player account. Your email is shown below:
-              </h2>
-
-              <ion-card
-                style="
-                  padding-left: 0%;
-                  padding-right: 0%;
-                  margin-left: 0%;
-                  margin-right: 0%;
-                "
-                class="ion-text-center"
-              >
-                <ion-card-content>
-                  <h4 style="font-weight: bold">{{userEmail}}</h4>
-                </ion-card-content>
-              </ion-card>
-
-              <h2 class="ion-text-justify">
-                If this is incorrect, please click 'return to register' and
-                submit your details again with the correct email
+                We have been unable to match your details to a current donor record. This may be due to out of date information or a mismatch in the details provided.
               </h2>
               <hr />
               <h2 class="ion-text-justify">
-                If your email is correct, please contact us using one of the
-                options below so that we can resolve this and complete your
-                registration
+                If you are aware of an error in the details you have provided, please resubmit your details using the button below.
+              </h2>
+              <hr />
+              <h2 class="ion-text-justify">
+                If the details you have provided are correct, please contact us using the options below to help us resolve the mismatch.
               </h2>
             </ion-card-content>
           </ion-card>
@@ -51,6 +33,15 @@
       </ion-row>
       <ion-row>
         <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+          <ion-button
+            expand="block"
+            color="primary"
+            shape="round"
+            class="button-padding"
+            (click)="resubmitDetails()"
+            >resubmit details
+          </ion-button>
+          <hr />
           <ion-button
             expand="block"
             color="buttons"

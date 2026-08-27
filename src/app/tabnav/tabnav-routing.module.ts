@@ -47,12 +47,12 @@ const routes: Routes = [
           ),
         canActivate: [ThemeGuard, AuthGuard],
       },
-      // {
-      //   path: 'aboutus',
-      //   loadChildren: () =>
-      //     import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
-      //   canActivate: [ThemeGuard, AuthGuard, VerifiedGuard],
-      // },
+      {
+        path: 'aboutus',
+        loadChildren: () =>
+          import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
+        canActivate: [ThemeGuard, AuthGuard, VerifiedGuard],
+      },
     ],
   },
   // {
@@ -98,11 +98,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./theme/theme.module').then((m) => m.ThemePageModule),
   },
-  // {
-  //   path: 'aboutus',
-  //   loadChildren: () =>
-  //     import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
-  // },
   {
     path: 'reset',
     loadChildren: () =>
@@ -118,6 +113,11 @@ const routes: Routes = [
     path: 'rejected',
     loadChildren: () =>
       import('./rejected/rejected.module').then((m) => m.RejectedPageModule),
+    canActivate: [ThemeGuard, AuthGuard],
+  },
+  {
+    path: 'resubmit',
+    loadChildren: () => import('./resubmit/resubmit.module').then( m => m.ResubmitPageModule),
     canActivate: [ThemeGuard, AuthGuard],
   },
 ];

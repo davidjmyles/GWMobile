@@ -45,6 +45,10 @@ export class UnverifiedPage implements OnInit, OnDestroy {
     window.location.href = `mailto:${this.providerEmail}`;
   }
 
+  resubmitDetails() {
+    this.router.navigate(['/tabnav/resubmit']);
+  }
+
   /* triggers logout function from the authService */
   onLogout() {
     this.authService.logout();

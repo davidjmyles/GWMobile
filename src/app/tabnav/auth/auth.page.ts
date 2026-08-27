@@ -38,7 +38,7 @@ export class AuthPage implements OnInit, OnDestroy {
   showPassword = false;
   //email = 'neil@carnsoftware.co.uk';
   //email = '670253@carntest.com';
-  email = 'gw1@gmail.com';
+  email = 'gw4@carn.com';
   password = 'P@55word1';
   //email = '';
   //password = '';

@@ -1,0 +1,331 @@
+<ion-header>
+  <ion-toolbar color="medium" class="top-padding">
+    <ion-buttons slot="start">
+      <ion-button slot="icon-only" size="large" strong id="modal-trigger2">
+        <ion-icon name="help-outline" size="large"></ion-icon>
+      </ion-button>
+      <ion-modal
+        trigger="modal-trigger2"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+      >
+        <ng-template>
+          <ion-content class="large-modal-font">
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-header>
+                <h3 class="ion-text-center" style="font-weight: bolder">
+                  Account Page
+                </h3>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  This page allows you to change your personal, address &
+                  contact details, as well as your contact preferences
+                </h2>
+                <hr />
+                <h2>
+                  To update your details, slide the edit toggle for the relevant
+                  section, and click the save button when you're finished
+                </h2>
+                <hr />
+                <h2>
+                  For any queries, please call {{ providerName }} on {{
+                  providerNumber }} or email at {{ providerEmail }}
+                </h2>
+                <hr />
+                <h2>
+                  For more information on how we use your data please click on
+                  the button below
+                </h2>
+                <hr />
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onViewPrivacy()"
+                  fill="solid"
+                  >view privacy policy</ion-button
+                >
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseAbout()"
+                  fill="outline"
+                  color="dark"
+                  >close window</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center" style="font-size: 120%"
+      >Resubmit Details</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" size="large" strong (click)="onLogout()">
+        <ion-icon name="log-out-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="lockAccess">
+    <ion-card>
+      <ion-card-content class="ion-text-justify">
+        <ion-item class="large-font" lines="none">
+          <h2>
+            Due to essential system maintenance, the Account Page is unavailable
+            at this time. If you wish to update any of your account details,
+            please retry after {{ maintenanceEndDate | date: 'HH:mm' }} on {{
+            maintenanceEndDate | date: 'dd/MM/yyyy' }}
+          </h2>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div *ngIf="!lockAccess">
+    <form [formGroup]="formResubmit">
+      <ion-grid
+        class="ion-no-padding"
+        style="background-color: var(--ion-color-background)"
+      >
+        <ion-row>
+          <ion-col sizeLg="6" offsetLg="3" sizeMd="8" offsetMd="2">
+            <ion-card>
+              <ion-card-header>
+                <ion-item lines="none" class="big-font ion-text-justify">
+                  <h6 >In the event that we have been unable to verify your details please resubmit using the form below.</h6>
+                </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formResubmit.controls.title.dirty && !formResubmit.get('title').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  
+                  <ion-select
+                    slot="start"
+                    interface="action-sheet"
+                    formControlName="title"
+                    class="select"
+                    
+                  >
+                    <ion-select-option
+                      *ngFor="let title of titles"
+                      [value]="title"
+                    >
+                      {{ title }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formResubmit.controls.title.valid && submitResubmit"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formResubmit.controls.firstName.dirty && !formResubmit.get('firstName').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    formControlName="firstName"
+                    type="text"
+                    placeholder="first name"
+                    maxLength="50"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formResubmit.controls.firstName.valid && submitResubmit"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formResubmit.controls.surname.dirty && !formResubmit.get('surname').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    formControlName="surname"
+                    type="text"
+                    placeholder="surname"
+                    maxLength="50"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formResubmit.controls.surname.valid && submitResubmit"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formResubmit.controls.door.dirty && !formResubmit.get('door').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    placeholder="door"
+                    formControlName="door"
+                    
+                    maxLength="20"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formResubmit.controls.door.valid && submitResubmit"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formResubmit.controls.address1.dirty && !formResubmit.get('address1').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    placeholder="address line 1"
+                    type="text"
+                    formControlName="address1"
+                    
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  class="form-error"
+                  *ngIf="!formResubmit.controls.address1.valid && submitResubmit"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >this field is required</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    formControlName="address2"
+                    
+                    placeholder="address line 2 (optional)"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    formControlName="address3"
+                    
+                    placeholder="address line 3 (optional)"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    formControlName="address4"
+                    
+                    placeholder="address line 4 (optional)"
+                    maxLength="75"
+                    autocapitalize="words"
+                  ></ion-input>
+                </ion-item>
+                <hr />
+                <ion-item
+                  class="big-font"
+                  [class.invalid]="formResubmit.controls.postcode.dirty && !formResubmit.get('postcode').valid"
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                  <ion-input
+                    type="text"
+                    placeholder="postcode"
+                    formControlName="postcode"
+                    
+                    maxLength="8"
+                    autocapitalize="characters"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  lines="none"
+                  class="form-error"
+                  *ngIf="!formResubmit.controls.postcode.valid && formResubmit.controls.postcode.dirty"
+                >
+                  <ion-label class="ion-text-wrap"
+                    >please ensure you have entered a valid postcode including a
+                    space</ion-label
+                  >
+                </ion-item>
+                <hr />
+                <hr />
+                  <ion-button
+                    class="box-border"
+                    expand="block"
+                    fill="solid"
+                    color="primary"
+                    type="submit"
+                    (click)="onSaveResubmit()"
+                    >save new details</ion-button
+                  >
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>
+

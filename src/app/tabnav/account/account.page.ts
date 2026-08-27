@@ -306,11 +306,11 @@ export class AccountPage implements OnInit, OnDestroy, ViewWillEnter {
   onCancelPersonal() {
     this.editModePersonal = false;
     this.title = this.currentUser.title;
-    this.formPersonal.get('title').patchValue(this.title);
+    this.formPersonal.get('title')?.patchValue(this.title);
     this.firstName = this.currentUser.firstName;
-    this.formPersonal.get('firstName').patchValue(this.firstName);
+    this.formPersonal.get('firstName')?.patchValue(this.firstName);
     this.surname = this.currentUser.surname;
-    this.formPersonal.get('surname').patchValue(this.surname);
+    this.formPersonal.get('surname')?.patchValue(this.surname);
   }
 
   /* sets data from login details form to relevant variables & sends to API. also updates subscription */
@@ -453,17 +453,17 @@ export class AccountPage implements OnInit, OnDestroy, ViewWillEnter {
   onCancelAddress() {
     this.editModeAddress = false;
     this.door = this.currentUser.door;
-    this.formAddress.get('door').patchValue(this.door);
+    this.formAddress.get('door')?.patchValue(this.door);
     this.address1 = this.currentUser.address1;
-    this.formAddress.get('address1').patchValue(this.address1);
+    this.formAddress.get('address1')?.patchValue(this.address1);
     this.address2 = this.currentUser.address2;
-    this.formAddress.get('address2').patchValue(this.address2);
+    this.formAddress.get('address2')?.patchValue(this.address2);
     this.address3 = this.currentUser.address3;
-    this.formAddress.get('address3').patchValue(this.address3);
+    this.formAddress.get('address3')?.patchValue(this.address3);
     this.address4 = this.currentUser.address4;
-    this.formAddress.get('address4').patchValue(this.address4);
+    this.formAddress.get('address4')?.patchValue(this.address4);
     this.postcode = this.currentUser.postcode;
-    this.formAddress.get('postcode').patchValue(this.postcode);
+    this.formAddress.get('postcode')?.patchValue(this.postcode);
   }
 
   /*
@@ -475,18 +475,18 @@ export class AccountPage implements OnInit, OnDestroy, ViewWillEnter {
     inputArray.forEach((result) => {
       if (result.section === 1) {
         let control = result.contactMethodId.toString();
-        result.value = this.formContact.get(control).value;
+        result.value = this.formContact.get(control)?.value;
       }
       let control = result.contactMethodId.toString();
       if (
         result.section === 2 &&
-        this.formContact.get(control).value === true
+        this.formContact.get(control)?.value === true
       ) {
         result.value = 'true';
       }
       if (
         result.section === 2 &&
-        this.formContact.get(control).value === false
+        this.formContact.get(control)?.value === false
       ) {
         result.value = 'false';
       }
@@ -561,7 +561,7 @@ export class AccountPage implements OnInit, OnDestroy, ViewWillEnter {
     this.contactMethods.forEach(async (result) => {
       let value = result.contactMethodId.toString();
       if (result.section === 1) {
-        this.formContact.get(value).patchValue(result.oldValue);
+        this.formContact.get(value)?.patchValue(result.oldValue);
         //this.formContact.get(value).patchValue(result.value);
       }
       this.s1Array = this.contactMethods.filter((res) => res.section === 1);
@@ -577,10 +577,10 @@ export class AccountPage implements OnInit, OnDestroy, ViewWillEnter {
       let value = result.contactMethodId.toString();
       if (result.section === 2 && result.value === 'true') {
         //this.formContact.get(value).patchValue('');
-        this.formContact.get(value).patchValue(result.oldValue);
+        this.formContact.get(value)?.patchValue(result.oldValue);
       } else if (result.section === 2 && result.value === 'false') {
         //this.formContact.get(value).patchValue('false');
-        this.formContact.get(value).patchValue(result.oldValue);
+        this.formContact.get(value)?.patchValue(result.oldValue);
       }
       this.s2Array = this.contactMethods.filter((res) => res.section === 2);
     });
@@ -595,7 +595,7 @@ export class AccountPage implements OnInit, OnDestroy, ViewWillEnter {
       if (res.section === 2 && res.requiredId > 0) {
         var x = res.requiredId.toString();
         var y = res.value;
-        if (this.formContact.get(x).value === '' && y === 'true') {
+        if (this.formContact.get(x)?.value === '' && y === 'true') {
           this.contactsMatch = false;
           this.showAlertContactsNotMatch();
           return;

@@ -62,6 +62,10 @@ export class RejectedPage implements OnInit {
     this.logoutService.logout();
   }
 
+    resubmitDetails() {
+    this.router.navigate(['/tabnav/resubmit']);
+  }
+
   /* initiates logout & navigates to signup screen */
   onReturnToSignup() {
     this.authService.logoutToSignup();

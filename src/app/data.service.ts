@@ -158,7 +158,7 @@ export class DataService implements OnDestroy {
         // }
         let sum = _.sumBy(resData[index].tickets, 'amountWon');
         currentData.totalWinnings = sum;
-        this._data.next(currentData);
+        //this._data.next(currentData);
 
         // } else {
         //   console.log(resData);

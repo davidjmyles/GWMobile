@@ -283,8 +283,8 @@ export class DashboardPage implements OnInit, OnDestroy {
       if (this.currentData.paymentsArray.length > 0) {
         this.paymentsAvailable = true;
         this.paymentsArray = this.currentData.paymentsArray;
-        this.lastPayment = this.paymentsArray[0].amount;
-        let rawDateLast = this.paymentsArray[0].date;
+        this.lastPayment = this.paymentsArray[0].paymentAmount;
+        let rawDateLast = this.paymentsArray[0].paymentDate;
         //this.lastPaymentDate = new Date(Date.parse(rawDateLast));
         //this.lastPaymentDateShort = this.lastPaymentDate.toDateString();
         let rawDateNext = this.currentData.nextPaymentDate;

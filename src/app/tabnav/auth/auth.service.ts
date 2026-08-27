@@ -169,6 +169,7 @@ export class AuthService implements OnDestroy {
         authObs.subscribe({
           next: (resData) => {
             console.log(resData);
+            this.storageService.set('token', resData.access_Token);
             this.userService.user.subscribe((user) => {
               this.currentUser = user;
               this.currentUser.username = resData.username;
@@ -201,7 +202,8 @@ export class AuthService implements OnDestroy {
                 // }
                 this.hash = resData.player.hash;
                 this.storageService.set('userId', this.currentUser.userId);
-                this.storageService.set('playerId', resData.playerId);
+                this.storageService.set('playerId', resData.player.playerId);
+                console.log('playerId: ', resData.player.playerId);
               this.rejected = resData.player.rejected;
               this.isVerified = resData.player.isVerified;
               this.currentUser.appVersion = resData.player.appVersion;

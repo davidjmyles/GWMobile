@@ -37,6 +37,7 @@ const currentUser = new User(
   '',
   '',
   '',
+  '',
   [],
   0,
   0,
@@ -74,6 +75,7 @@ export class UserService implements OnDestroy {
   apiKey;
   hash;
   connectionSub: Subscription;
+  ignoreMismtach = true;
 
   get user() {
     return this._user.asObservable();
@@ -97,13 +99,18 @@ export class UserService implements OnDestroy {
     }
   }
 
+  async checkData() {
+
+  }
+
   /*
    * submits a set of new user details to the API & saves some details to local storage
    *
    * @param userData - signup data entered by the user
    */
   async addNewUser(userData: {
-    gadRef: number;
+    gadRef: number | null;
+    parishCode: string;
     username: string;
     password: string;
     confirmPassword: string;
@@ -121,6 +128,7 @@ export class UserService implements OnDestroy {
     };
     contactDetails: ContactMethod[];
   }) {
+    console.log(userData);
     this.connectionSub = this.connectionService.connection.subscribe((data) => {
       this.connectionString = data.connectionString;
       this.apiKey = data.apiKey;
@@ -132,6 +140,10 @@ export class UserService implements OnDestroy {
       ApiKey: this.apiKey,
       'x-api-version': '2.0',
       //ApiKey: 'rGNpksJ9&eEt6cMSoijaVZ@xz39Fn5^RXY6c7cbPsdLGSgJK$nvJ8Ciw5oYH',
+    });
+    var headers2 = new HttpHeaders({
+      dbCode: databaseCode,
+      ApiKey: this.apiKey,
     });
     this.loadingCtrl
       .create({ keyboardClose: true, message: 'submitting details...' })
@@ -173,6 +185,7 @@ export class UserService implements OnDestroy {
         );
       });
   }
+
 
   /* generic alert message for failed signup */
   private showAlertFail(message: string) {

@@ -627,40 +627,6 @@
       </ion-modal>
       <hr />
     </div>
-    <div>
-      <ion-buttons>
-        <ion-button (click)="navigateToDocuments()">
-          <ion-item class="background" color="background">
-            <ion-icon name="document-text-outline" slot="start"></ion-icon>
-            <h3>Documents</h3>
-            <div *ngIf="unreadDocuments">
-              <ion-icon
-                name="alert-circle-outline"
-                slot="end"
-                style="color: green"
-              ></ion-icon>
-            </div>
-          </ion-item>
-        </ion-button>
-      </ion-buttons>
-      <hr />
-    </div>
-    <div *ngIf="providerHasTwitter">
-      <ion-buttons>
-        <ion-button (click)="navigateToTwitter()">
-          <ion-item class="background" color="background">
-            <!-- <ion-icon name="logo-twitter" slot="start"></ion-icon> -->
-            <ion-icon [src]="x" slot="start"></ion-icon>
-            <h3>Our X Feed</h3>
-          </ion-item>
-        </ion-button>
-      </ion-buttons>
-      <hr />
-    </div>
-    <div>
-      <ion-buttons> </ion-buttons>
-      <hr />
-    </div>
     <ion-buttons>
       <ion-button (click)="onLogout()">
         <ion-item class="background" color="background">

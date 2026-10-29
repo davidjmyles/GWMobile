@@ -1,13 +1,309 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>aboutus</ion-title>
+<ion-modal
+        class="testing"
+        trigger="modal-trigger"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]" 
+      >
+        <ng-template>
+          <ion-content class="large-modal-font">
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  This page allows you to change your personal, address &
+                  contact details, as well as your contact preferences
+                </h2>
+                <hr />
+                <h2>
+                  To update your details, slide the edit toggle for the relevant
+                  section, and click the save button when you're finished
+                </h2>
+                <hr />
+
+                <hr />
+                <h2>
+                  For more information on how we use your data please click on
+                  the button below
+                </h2>
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseAbout()"
+                  fill="outline"
+                  color="dark"
+                  >close window</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+<ion-header>
+  <ion-toolbar color="medium" class="top-padding">
+    <ion-title>About Us</ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" size="large" strong (click)="onLogout()">
+        <ion-icon
+          name="log-out-outline"
+          size="large"
+          class="big-buttons"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">aboutus</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content scroll-y="false">
+  <ion-grid style="height: 100vh;">
+    <ion-row style="height: 60vh;">
+      <ion-col >
+        <ion-card>
+          <ion-card-title class="ion-text-wrap ion-text-center">
+            {{ providerName}}
+          </ion-card-title>
+          <hr>
+          <ion-item lines="none">
+
+            <ion-card-subtitle ion-text-wrap class="ion-text-justify">
+              We are a Catholic church located in Coatbridge, Scotland. We are part of the Diocese of Motherwell and we are here to serve our parishioners and the wider community.
+            </ion-card-subtitle>
+          </ion-item>
+            </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-card color="transparent" class="card-border" mode="ios">
+    <ion-row style="height: 10vh;"> 
+      <ion-col >
+          
+          <ion-button
+          color="buttons"
+          type="button"
+          fill="solid"
+          expand="block"
+          id="modal-trigger"
+          >
+          Parish Details
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row style="height: 10vh;"> 
+      <ion-col >
+          <!-- <ion-item lines="none" class="ion-no-padding"
+                      fill="solid"
+                      class="large-font box-border-select"
+                      >
+                      <ion-select
+                      labelPlacement="fixed" 
+                      style="margin-left: 10%;"
+                      label="Contact Us"
+                      class="select"
+                      interface="action-sheet"
+                      >
+                      <ion-select-option 
+                      >
+                      Call
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item> -->
+          <ion-button
+          color="buttons"
+          type="button"
+          fill="solid"
+          expand="block"
+          id="open-action-sheet"
+          >Contact Us
+    </ion-button>
+    <ion-action-sheet trigger="open-action-sheet" 
+     [buttons]="actionSheetButtons"></ion-action-sheet>
+      </ion-col>
+    </ion-row>
+    <!-- <ion-card  color="transparent" class="card-border" mode="ios"> -->
+      <!-- <ion-grid>
+        
+        <ion-row style="height: 12vh;">
+          
+          <ion-col size="4">
+            <ion-button
+            style="margin-left: 0%; padding-left: 0%;"
+            fill="solid"
+            expand="block"
+            (click)="linkTel()"
+            color="buttons"
+            >
+            <ion-icon
+            slot="start"
+            name="call-outline"
+            style="font-size: xx-large"
+            ></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button
+          fill="solid"
+          expand="block"
+          color="buttons"
+          (click)="linkEmail()"
+          >
+          <ion-icon
+          slot="start"
+          name="mail-outline"
+          style="font-size: xx-large"
+          ></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="4">
+        
+        
+        <ion-button
+        color="buttons"
+        type="button"
+        fill="solid"
+        expand="block"
+        (click)="linkWebsite()"
+        >
+        <ion-icon
+        slot="start"
+        name="globe-outline"
+        style="font-size: xx-large"
+        ></ion-icon>
+      </ion-button>
+      
+    </ion-col>
+  </ion-row>
+</ion-grid> -->
+</ion-card>
+<!--</ion-card>-->
+</ion-grid>
+
 </ion-content>
+
+<!-- <div style="max-height: 50vh;">
+      <ion-img src="{{ promoImage }}"> </ion-img>
+    </div>
+
+    <ion-card class="test">
+      
+            <ion-card-content>
+            <ion-card>
+
+              <ion-label
+              class="ion-text-wrap ion-text-center"
+              style="font-weight: bold"
+              >{{ providerName }}</ion-label
+              >
+            </ion-card>
+            <ion-card color="buttons" class="card-border" mode="ios">
+          <ion-button
+            color="buttons"
+            type="button"
+            fill="solid"
+            expand="block"
+            (click)="linkWebsite()"
+          >
+            Find out more about us
+          </ion-button>
+        </ion-card>
+        <ion-card color="buttons" class="card-border" mode="ios">
+          <ion-button
+            color="buttons"
+            type="button"
+            fill="solid"
+            expand="block"
+            (click)="linkWebsite()"
+          >
+            Contact Us
+          </ion-button>
+        </ion-card>
+
+            
+          </ion-card-content>
+            
+            
+          <div *ngIf="smallScreen">
+            <hr />
+            <hr />
+            <hr />
+          </div> 
+          
+
+    </ion-card>
+
+
+<ion-content color="background">
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeLg="8" offsetLg="2" sizeMd="8" offsetMd="2">
+        <ion-card class="border">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label
+                class="large-font small-letters large-balance ion-text-wrap ion-text-center"
+                style="font-weight: bold"
+                >{{ providerName }}</ion-label
+              >
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-img src="{{ providerImage }}"></ion-img>
+        </ion-card>
+        <ion-card class="border">
+          <ion-card-content>
+            <div>
+              <h2 class="ion-text-justify" [innerHTML]="providerBlurb"></h2>
+            </div>
+            <hr />
+            <h2>To contact us, please click on the options below</h2>
+          </ion-card-content>
+        </ion-card>
+        <ion-card color="buttons" class="contact-cards card-border" mode="ios">
+          <ion-button
+            fill="solid"
+            expand="block"
+            (click)="linkTel()"
+            color="buttons"
+          >
+            <ion-icon
+              slot="start"
+              name="call-outline"
+              style="font-size: xx-large"
+            ></ion-icon>
+          </ion-button>
+        </ion-card>
+        <ion-card color="buttons" class="contact-cards card-border" mode="ios">
+          <ion-button
+            fill="solid"
+            expand="block"
+            color="buttons"
+            (click)="linkEmail()"
+          >
+            <ion-icon
+              slot="start"
+              name="mail-outline"
+              style="font-size: xx-large"
+            ></ion-icon>
+          </ion-button>
+        </ion-card>
+        <ion-card color="buttons" class="card-border" mode="ios">
+          <ion-button
+            color="buttons"
+            type="button"
+            fill="solid"
+            expand="block"
+            (click)="linkWebsite()"
+          >
+            <ion-icon
+              slot="start"
+              name="globe-outline"
+              style="font-size: xx-large"
+            ></ion-icon>
+          </ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content> -->
+

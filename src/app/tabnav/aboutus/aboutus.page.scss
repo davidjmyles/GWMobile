@@ -1,0 +1,47 @@
+.topPadding {
+  height: 100%;
+  display: flex;
+  align-items: center !important;
+}
+
+.border {
+  border: 4px solid var(--ion-color-border);
+}
+
+.box-border-select {
+  --border-width: 1px !important;
+  --border-color: var(--ion-color-dark);
+  --border-radius: 10px;
+  --background-color: var(--ion-color-tertiary);
+}
+
+.large-font {
+  font-size: 120% !important;
+}
+
+ion-content {
+  --background: none;
+  background-image: url('/assets/img/aboutus2.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.testing {
+    background-image: none !important;
+}
+
+.test {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: white !important;
+  //height: 100%;
+  padding: 0% !important;
+  margin: 0% !important;
+  //margin-top: -15% !important;
+  background-color: var(--ion-color-background) !important;
+}
+
+.custom-delete-button {
+    color: grey !important;
+}

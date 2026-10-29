@@ -110,3 +110,8 @@ ion-refresher ion-refresher-content {
   }
 }
 
+button.alert-button.alert-button-confirm {
+  //background-color: var(--ion-color-success) !important;
+  color: var(--ion-color-success) !important;
+}
+

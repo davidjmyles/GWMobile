@@ -26,10 +26,12 @@ export class SplashPage implements OnInit {
    * if not, navigates to theme page
    */
   async ngOnInit() {
-    let code = await this.storageService.get('databaseCode');
-    console.log(code);
-    if (code !== null) {
-      this.onSubmit2(code);
+    let databaseCode = await this.storageService.get('databaseCode');
+    let parishCode = await this.storageService.get('parishCode');
+    console.log(parishCode);
+    console.log(databaseCode);
+    if (databaseCode !== null) {
+      this.onSubmit2(databaseCode);
       this.providerSub = this.providerService.provider.subscribe(
         async (provider) => {
           this.currentProvider = provider;

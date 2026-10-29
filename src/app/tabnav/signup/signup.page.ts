@@ -39,7 +39,7 @@ import { VersionService } from 'src/app/version.service';
   standalone: false,
 })
 /* defines & controls functionality on signup page */
-export class SignupPage implements OnInit, OnDestroy {
+export class SignupPage implements OnInit, OnDestroy{
   currentUser: User;
   formSignup: FormGroup;
   formContact: FormGroup;
@@ -103,6 +103,16 @@ export class SignupPage implements OnInit, OnDestroy {
   biometricStatus = false;
   highlightGadInput = false;
   highlightEmailInput = false;
+  titleMismatched = false;
+  forenameMismatched = false;
+  surnameMismatched = false;
+  doorMismatched = false;
+  address1Mismatched = false;
+  postcodeMismatched = false;
+  isModalOpen = false;
+  displayGadModal = false;
+  gadNumber: number | null = null;
+  gadProvided: boolean;
 
   constructor(
     private modalCtrl: ModalController,
@@ -154,10 +164,10 @@ export class SignupPage implements OnInit, OnDestroy {
           updateOn: 'blur',
           validators: [Validators.required],
         }),
-        gadNumber: new FormControl(this.username, {
-          updateOn: 'blur',
-          validators: [Validators.required],
-        }),
+        // gadNumber: new FormControl(this.username, {
+        //   updateOn: 'blur',
+        //   validators: [Validators.required],
+        // }),
         password: new FormControl(this.password, {
           updateOn: 'blur',
           validators: [
@@ -236,6 +246,8 @@ export class SignupPage implements OnInit, OnDestroy {
         this.checkBiometricAvailability();
       });
     }
+    //this.showAlertGadNumber();
+    this.displayGadModal = true;
   }
 
     checkPostcode(postcode: any) {
@@ -305,10 +317,15 @@ export class SignupPage implements OnInit, OnDestroy {
 
   /* checks that email entered by user for account setup is valid in LotteryMaster */
   async checkGadValidity() {
-    const databaseCode = await this.storageService.get('databaseCode');
-    if (this.formSignup.value.gadNumber !== null) {
-      var gad = this.formSignup.value.gadNumber;
+    //const databaseCode = await this.storageService.get('databaseCode');
+    // if (this.formSignup.value.gadNumber !== null) {
+    //   var gad = this.formSignup.value.gadNumber;
+      if (this.gadNumber !== null) {
+        console.log(this.gadNumber);
+      var gad = this.gadNumber;
       console.log(gad);
+      console.log(this.databaseCode);
+      console.log(this.apiKey);
       var header = new HttpHeaders({
         dbCode: this.databaseCode,
         ApiKey: this.apiKey,
@@ -321,9 +338,8 @@ export class SignupPage implements OnInit, OnDestroy {
         .then((loadingEl) => {
           loadingEl.present();
           let gadObs: Observable<any>;
-          gadObs = this.http.post<any>(
-            `https://${this.connectionString}/api/user/checkgadexists`,
-            { number: gad },
+          gadObs = this.http.get<any>(
+            `https://${this.connectionString}/api/user/checkgadexists/${gad}`,
             { headers: header }
           );
           console.log(header);
@@ -334,55 +350,32 @@ export class SignupPage implements OnInit, OnDestroy {
                 loadingEl.dismiss();
                 this.gadIsVerified = true;
                 this.lockVerifiedGad = true;
+                this.gadProvided = true;
                 //this.showAlertPassword(email, password);
                 this.highlightGadInput = false;
               } else if (resData === false) {
                 loadingEl.dismiss();
-                this.formSignup.get('gadNumber')!.reset();
+                this.gadNumber = null;
                 this.showAlertGadAlreadyVerified();
               } 
                }, 
                error: (errRes) => {
                 console.log(errRes);
-                 this.formSignup.get('gadNumber')!.reset();
+                 
               this.gadIsVerified = false;
               this.highlightGadInput = true;
               loadingEl.dismiss();
               const error = errRes.error;
-              if (error.status == 404) {
+              if (error == "invalid") {
                 this.showAlertInvalidGad();
+                this.gadNumber = null;
               }
-              if (error.status == 400) {
+              if (error == "nonstandard") {
                 this.showAlertNonStandardGad();
+                this.gadNumber = null;
               }
                }
         });
-          // gadObs.subscribe(
-          //   (resData) => {
-          //     console.log(resData);
-          //     if (resData === true) {
-          //       loadingEl.dismiss();
-          //       this.gadIsVerified = true;
-          //       this.lockVerifiedGad = true;
-          //       //this.showAlertPassword(email, password);
-          //       this.highlightGadInput = false;
-          //     } else if (resData === false) {
-          //       loadingEl.dismiss();
-          //       this.formSignup.get('gadNumber')!.reset();
-          //       this.showAlertGadAlreadyVerified();
-          //     }
-          //   },
-          //   (errRes) => {
-          //     this.formSignup.get('gadNumber')!.reset();
-          //     this.gadIsVerified = false;
-          //     this.highlightGadInput = true;
-          //     loadingEl.dismiss();
-          //     const error = errRes.error;
-          //     if (error.status == 404) {
-          //       this.showAlertInvalidGad();
-          //     }
-          //   }
-          // );
         });
     }
   }
@@ -418,7 +411,7 @@ export class SignupPage implements OnInit, OnDestroy {
         header: 'verification failed',
         cssClass: 'custom-alert',
         message:
-          `We don't recognise this gift aid declaration number. please ensure that you have entered it correctly.`,
+          `We don't recognise this gift aid declaration number. Please ensure that you have entered it correctly.`,
         buttons: [{ text: 'ok', cssClass: 'alert-button-ok' }],
       })
       .then((alertEl) => alertEl.present());
@@ -434,6 +427,11 @@ export class SignupPage implements OnInit, OnDestroy {
         buttons: [{ text: 'ok', cssClass: 'alert-button-ok' }],
       })
       .then((alertEl) => alertEl.present());
+  }
+
+  onContinueWithoutGAD() {
+    this.displayGadModal = false;
+    this.gadProvided = false;
   }
 
   /* checks that email entered by user for account setup is valid in LotteryMaster */
@@ -621,8 +619,202 @@ export class SignupPage implements OnInit, OnDestroy {
     return inputString[0].toUpperCase() + inputString.slice(1).toLowerCase();
   }
 
+
+  async checkData() {
+    if (this.gadProvided) {
+
+      let firstName = this.formSignup.value.firstName;
+      let upperFirstName = _.upperFirst(firstName);
+      let lastName = this.formSignup.value.surname;
+      let upperLastName = _.upperFirst(lastName);
+      let door = this.formSignup.value.door;
+      let upperDoor = _.upperFirst(door);
+      let address1 = this.formSignup.value.address1;
+      let upperAddress1 = _.upperFirst(address1);
+      let address2 = this.formSignup.value.address2;
+      let upperAddress2;
+      if (address2 !== null) {
+        upperAddress2 = _.upperFirst(address2);
+      }
+      let address3 = this.formSignup.value.address3;
+      let upperAddress3;
+      if (address3 !== null) {
+        upperAddress3 = _.upperFirst(address3);
+      }
+      let upperAddress4;
+      let address4 = this.formSignup.value.address4;
+      if (address4 !== null) {
+        upperAddress4 = _.upperFirst(address4);
+      }
+      let trimmedPostcode = this.formSignup.value.postcode.trim();
+      let userData = {
+        gadRef: this.formSignup.value.gadNumber,
+        username: this.formSignup.value.username,
+        password: this.formSignup.value.password,
+        confirmPassword: this.formSignup.value.confirmPassword,
+        appVersion: this.appVersion,
+        deviceNotifications: this.deviceNotificationsPermission,
+        platform: Capacitor.getPlatform(),
+        personalDetails: {
+          title: this.formSignup.value.title,
+          forename: upperFirstName,
+          surname: upperLastName,
+        },
+        addressDetails: {
+          door: upperDoor,
+          address1: upperAddress1,
+          address2: upperAddress2,
+          address3: upperAddress3,
+          address4: upperAddress4,
+          postcode: trimmedPostcode,
+        },
+        contactDetails: this.filteredArray,
+      }
+      const databaseCode = await this.storageService.get('databaseCode');
+      if (this.formSignup.value.username !== null) {
+        var header = new HttpHeaders({
+          dbCode: this.databaseCode,
+          ApiKey: this.apiKey,
+        });
+        this.loadingCtrl
+        .create({ keyboardClose: true, message: 'checking details...' })
+        .then((loadingEl) => {
+          loadingEl.present();
+          let checkObs: Observable<any>;
+          checkObs = this.http.post<any>(
+            `https://${this.connectionString}/api/user/matchsignupdetails`,
+            userData,
+            { headers: header }
+          );
+          checkObs.subscribe({
+            next: (resData) => {
+              console.log(resData); 
+              loadingEl.dismiss();
+              if (resData.anyMismatched === true) {
+                this.isModalOpen = true;
+                if (resData.titleMismatched === true) {
+                  this.titleMismatched = true;
+                } else {
+                  this.titleMismatched = false;
+                }
+                if (resData.forenameMismatched === true) {
+                  this.forenameMismatched = true;
+                } else {
+                  this.forenameMismatched = false;
+                }
+                if (resData.surnameMismatched === true) {
+                  this.surnameMismatched = true;
+                } else {
+                  this.surnameMismatched = false;
+                }
+                if (resData.doorMismatched === true) {
+                  this.doorMismatched = true;
+                } else {
+                  this.doorMismatched = false;
+                }
+                if (resData.address1Mismatched === true) {
+                  this.address1Mismatched = true;
+                } else {
+                  this.address1Mismatched = false;      
+                }
+                if (resData.postcodeMismatched === true) {
+                  this.postcodeMismatched = true;
+                } else {
+                  this.postcodeMismatched = false;
+                }
+              } else if (resData.anyMismatched === false) {
+                this.onSignup();
+              }
+            }, 
+            error: (errRes) => {
+              console.log(errRes);
+              loadingEl.dismiss();
+            }
+          });
+        });
+      }
+    } else {
+      this.onSignup();
+    }
+  }
+
+  async checkCanDismiss(data?: any, role?: string): Promise<boolean> {
+    return role !== 'gesture'; 
+  }
+
+  onCloseModal() {
+    this.isModalOpen = false;
+  }
+
+/* alert showing that submitted details to not match records */
+  private showAlertGadNumber() {
+    this.alertCtrl
+      .create({
+        header: 'Gift Aid Declaration Number',
+        //subheader: 'To begin your registration, please confirm if you have a Gift Aid Declaration (GAD) Number.',
+        cssClass: 'custom-alert',
+        message: 'To begin your registration, please confirm if you have a Gift Aid Declaration (GAD) Number to enter.',
+        inputs: [
+          {
+            label: 'Yes',
+            type: 'radio',
+            value: 'yes',
+          },
+          {
+            label: 'No',
+            type: 'radio',
+            value: 'no',
+          },
+        ],
+        buttons: [
+          { text: 'Submit', cssClass: 'alert-button-ok',             
+          handler: (data) => {
+              console.log(data);
+              if (data === 'yes') {
+                this.showAlertGadEntry();
+              }
+            }},
+                       
+          ],
+      })
+      .then((alertEl) => alertEl.present());
+  }
+  
+
+  showAlertGadEntry() {
+    this.alertCtrl
+      .create({
+        header: 'Enter GAD Number',
+        cssClass: 'custom-alert',
+        message: 'Please enter your Gift Aid Declaration (GAD) Number.',
+        inputs: [
+          {
+            label: 'GAD Number',
+            type: 'text',
+            placeholder: 'Enter GAD Number',
+          },
+        ],
+        buttons: [
+          { text: 'Submit', cssClass: 'alert-button-ok',             
+          handler: () => {
+              
+            }},
+             { text: 'Cancel', role: 'cancel', cssClass: 'alert-button-ok',             
+          handler: () => {
+              
+            }}          
+          ],
+      })
+      .then((alertEl) => alertEl.present());
+  }
+  
+
   /* collates form data & sends to API for new user registration */
   async onSignup() {
+    if (this.isModalOpen === true) {
+      this.isModalOpen = false;
+    }
+    const parishCode = await this.storageService.get('parishCode');
     let firstName = this.formSignup.value.firstName;
     let upperFirstName = _.upperFirst(firstName);
     let lastName = this.formSignup.value.surname;
@@ -668,7 +860,8 @@ export class SignupPage implements OnInit, OnDestroy {
       this.storageService.set('hasBiometrics', true);
     }
     this.userService.addNewUser({
-      gadRef: this.formSignup.value.gadNumber,
+      gadRef: this.gadNumber,
+      parishCode: parishCode,
       username: this.formSignup.value.username,
       password: this.formSignup.value.password,
       confirmPassword: this.formSignup.value.confirmPassword,

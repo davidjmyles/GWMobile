@@ -84,7 +84,6 @@ export class ProviderService implements OnDestroy {
       dbCode: providerCode,
       ApiKey: this.apiKey,
       'x-api-version': '2.0',
-      //ApiKey: 'rGNpksJ9&eEt6cMSoijaVZ@xz39Fn5^RXY6c7cbPsdLGSgJK$nvJ8Ciw5oYH',
     });
     this.loadingCtrl
       .create({ keyboardClose: true, message: 'starting up. please wait' })
@@ -98,6 +97,7 @@ export class ProviderService implements OnDestroy {
         );
         Obs.subscribe({
               next: (resData) => {  
+                    console.log(resData);
                     currentProvider.parameterId = resData.parameterId;
                     currentProvider.name = resData.name;
                     currentProvider.blurb = resData.blurb;
@@ -108,8 +108,6 @@ export class ProviderService implements OnDestroy {
                     currentProvider.cssVars = resData.cssVars; 
                     currentProvider.appleLinkUrl = resData.appleLinkUrl;
                     currentProvider.googleLinkUrl = resData.googleLinkUrl;
-                    //currentProvider.hasTicketUrl = resData.hasTicketUrl;
-                    //this.storageService.set('lowBalance', currentProvider.lowBalance);
                     this.loadStyle2();
                     this.userService.providerIsSet = true;
                     loadingEl.dismiss();
@@ -120,16 +118,6 @@ export class ProviderService implements OnDestroy {
                  this.showAlertThemeFail();
                }
         });
-        // Obs.subscribe(
-          
-        //   (resData) => {
-        //   },
-        //   (errRes) => {
-        //     loadingEl.dismiss();
-        //     //const code = errRes.error[0];
-        //     this.showAlertThemeFail();
-        //   }
-        // );
       });
   }
 

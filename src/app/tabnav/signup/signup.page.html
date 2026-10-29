@@ -5,6 +5,80 @@
         <ion-icon name="help-outline" size="large"></ion-icon>
       </ion-button>
       <ion-modal
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+        [isOpen]="displayGadModal"
+        backdrop-dismiss="false"
+        [canDismiss]="checkCanDismiss"
+      >
+        <ng-template>
+          <ion-content class="large-modal-font">
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-header>
+                <h3 class="ion-text-center" style="font-weight: bolder">
+                  Gift Aid Declaration
+                </h3>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  To begin your registration, we need to confirm your Gift Aid status.  
+                </h2>
+                <hr />
+                <h2>
+                  If you have a valid Gift Aid Declaration (GAD) Number, please enter it in the box below and click 'Verify GAD'. Once completed, you can proceed to enter your details.
+                </h2>
+                <hr />
+                <h2>
+                  If you do not have a GAD Number, or are unable to provide it at this time, please select 'Continue without GAD'. You will be able to complete your registration, and at the end you will be prompted to complete a Gift Aid declaration.
+                </h2>
+                <hr />
+                <h2>
+                  For any queries, please call {{ providerName }} on {{
+                  providerNumber }} or email at {{ providerEmail }}
+                </h2>
+                <hr />
+                                <ion-item
+                  fill="outline"
+                  class="large-font box-border"
+                  lines="none"
+                >
+                <ion-input
+                    [(ngModel)]="gadNumber"
+                    type="number"
+                    placeholder="enter gift aid declaration number"
+                    maxLength="256"
+                    autocorrect="on"
+                    [color]="highlightGadInput ? 'danger' : 'undefined'"
+                >
+
+                </ion-input>
+                                </ion-item>
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="checkGadValidity()"
+                  fill="solid"
+                  >Verify GAD</ion-button
+                >
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onContinueWithoutGAD()"
+                  fill="outline"
+                  color="dark"
+                  >Continue without GAD</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+      <ion-modal
         trigger="modal-trigger5"
         class="large-modal"
         [initialBreakpoint]="0.85"
@@ -69,7 +143,69 @@
         </ng-template>
       </ion-modal>
     </ion-buttons>
-
+    <ion-modal
+        [canDismiss]="checkCanDismiss"
+        [isOpen]="isModalOpen"
+        [backdropDismiss]="false"
+        class="large-modal"
+        [initialBreakpoint]="0.85"
+        [breakpoints]="[0, 0.85, 1]"
+      >
+        <ng-template>
+          <ion-content class="large-modal-font">
+            <ion-card class="this-ion-card">
+              <hr />
+              <hr />
+              <ion-card-header>
+                <h3 class="ion-text-center" style="font-weight: bolder">
+                  Submission Details Mismatch
+                </h3>
+              </ion-card-header>
+              <ion-card-content class="ion-text-justify large-modal-font">
+                <hr />
+                <h2>
+                  The details you have submitted do not fully match those on your existing donor record. Mismatched details can cause a delay in processing your registration.
+                </h2>
+                <hr />
+                <h2>
+                  The following do not match our records:
+                </h2>
+                <h3>
+                  <ul>
+                    <li *ngIf="titleMismatched">Title</li>
+                    <li *ngIf="forenameMismatched">Forename</li>
+                    <li *ngIf="surnameMismatched">Surname</li>
+                    <li *ngIf="doorMismatched">Door Number</li>
+                    <li *ngIf="address1Mismatched">Address Line 1</li>
+                    <li *ngIf="postcodeMismatched">Postcode</li>
+                  </ul>
+                </h3>
+                <hr />
+                <h2>
+                  If the details you have submitted are correct, please click 'Submit' to continue. If you wish to amend your details, please click 'Cancel' and update the relevant fields.
+                </h2>
+                <hr />
+                <hr />
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onSignup()"
+                  fill="solid"
+                  >Submit</ion-button
+                >
+                <hr />
+                <ion-button
+                  expand="block"
+                  (click)="onCloseModal()"
+                  fill="outline"
+                  color="dark"
+                  >Cancel</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
     <ion-title class="ion-text-center" style="font-size: 120%"
       >Register</ion-title
     >
@@ -129,7 +265,7 @@
                 </ion-item>
               </ion-card-header>
               <ion-card-content>
-                <ion-item
+                <!-- <ion-item
                   class="big-font"
                   [class.invalid]="formSignup.controls.gadNumber.dirty && !formSignup.get('gadNumber').valid"
                   fill="outline"
@@ -162,7 +298,7 @@
                     >please enter a valid gift aid declaration number</ion-label
                   >
                 </ion-item>
-                <hr />          
+                <hr />           -->
 
                 <ion-item
                   [class.invalid]="formSignup.controls.username.dirty && !formSignup.get('username').valid"
@@ -709,8 +845,8 @@
                     expand="block"
                     fill="solid"
                     color="buttons"
-                    (click)="onSignup()"
-                    [disabled]="!formSignup.valid || !gadIsVerified"
+                    (click)="checkData()"
+                    [disabled]="!formSignup.valid"
                     >save details</ion-button
                   >
                 </div>

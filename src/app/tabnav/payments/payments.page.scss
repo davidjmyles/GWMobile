@@ -17,6 +17,11 @@ ion-refresher {
   --border-radius: 10px !important;
 }
 
+ion-select {
+    //--placeholder-color: black !important;
+    --placeholder-opacity: 1 !important;
+}
+
 .select {
   margin-left: 0px !important;
 }
